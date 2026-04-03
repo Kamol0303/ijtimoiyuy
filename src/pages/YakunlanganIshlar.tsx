@@ -132,13 +132,15 @@ const YakunlanganIshlar = () => {
       </div>
 
       <div className="space-y-3">
-        {renderItems()}
-        {renderItems().length === 0 && (
-          <div className="text-center py-12 text-muted-foreground">
-            <CheckCircle className="h-12 w-12 mx-auto mb-3 opacity-30" />
-            <p>Yakunlangan ishlar topilmadi</p>
-          </div>
-        )}
+        {(() => {
+          const items = renderItems();
+          return items.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">
+              <CheckCircle className="h-12 w-12 mx-auto mb-3 opacity-30" />
+              <p>Yakunlangan ishlar topilmadi</p>
+            </div>
+          ) : items;
+        })()}
       </div>
     </div>
   );
