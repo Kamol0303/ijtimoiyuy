@@ -6,6 +6,7 @@ interface KPICardProps {
   icon: ReactNode;
   trend?: string;
   variant?: "default" | "success" | "danger" | "warning";
+  onClick?: () => void;
 }
 
 const variantClasses = {
@@ -15,9 +16,12 @@ const variantClasses = {
   warning: "border-l-warning",
 };
 
-export function KPICard({ title, value, icon, trend, variant = "default" }: KPICardProps) {
+export function KPICard({ title, value, icon, trend, variant = "default", onClick }: KPICardProps) {
   return (
-    <div className={`kpi-card border-l-4 ${variantClasses[variant]} animate-fade-in`}>
+    <div
+      className={`kpi-card border-l-4 ${variantClasses[variant]} animate-fade-in ${onClick ? "cursor-pointer hover:shadow-lg transition-shadow" : ""}`}
+      onClick={onClick}
+    >
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm text-muted-foreground mb-1">{title}</p>
