@@ -1,8 +1,9 @@
 import { useState, useCallback } from "react";
-import { Users, Search, Phone, FileText, Plus, Pencil, Trash2, Download } from "lucide-react";
+import { Users, Search, Phone, FileText, Plus, Pencil, Trash2, Download, CheckCircle } from "lucide-react";
 import { SAMARQAND_TUMANLARI } from "@/data/mock-data";
 import { DataManager } from "@/services/DataManager";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FuqaroCrudDialog } from "@/components/crud/FuqaroCrudDialog";
@@ -11,6 +12,7 @@ import type { Fuqaro } from "@/data/mock-data";
 
 const Fuqarolar = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [qidiruv, setQidiruv] = useState("");
   const [tumanFilter, setTumanFilter] = useState<string>("barchasi");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -18,7 +20,10 @@ const Fuqarolar = () => {
   const [editingFuqaro, setEditingFuqaro] = useState<Fuqaro | undefined>();
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const fuqarolar = DataManager.getFuqarolar();
+  const isHokim = user?.role === "hokim";
+  const canEdit = user?.role === "hokim" || user?.role === "uy_joy";
+
+  const fuqarolar = DataManager.getFuqarolar().filter(f => (f as any).holat !== "yakunlangan" && (f as any).holat !== "arxivlangan");
 
   const filtered = fuqarolar.filter(f => {
     const matchSearch = f.ism.toLowerCase().includes(qidiruv.toLowerCase()) || f.jshshir.includes(qidiruv);
@@ -29,11 +34,18 @@ const Fuqarolar = () => {
   const refresh = useCallback(() => setRefreshKey((k) => k + 1), []);
 
   const handleDelete = (f: Fuqaro) => {
+    if (!isHokim) return;
     if (confirm(`"${f.ism}" fuqaroni o'chirishni xohlaysizmi?`)) {
       DataManager.deleteFuqaro(f.id, user?.ism || "Noma'lum");
       toast.success("Fuqaro o'chirildi");
       refresh();
     }
+  };
+
+  const handleYakunlash = (f: Fuqaro) => {
+    DataManager.updateFuqaro(f.id, { holat: "yakunlangan" } as any, user?.ism || "");
+    toast.success(`"${f.ism}" ${t("yakunlandi")}`);
+    refresh();
   };
 
   const handleExport = () => {
@@ -43,42 +55,44 @@ const Fuqarolar = () => {
     const a = document.createElement("a");
     a.href = url; a.download = "fuqarolar.csv"; a.click();
     URL.revokeObjectURL(url);
-    toast.success("Ma'lumotlar yuklandi");
+    toast.success(t("malumotlar_yuklandi"));
   };
 
   return (
     <div className="space-y-6 animate-fade-in" key={refreshKey}>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="page-header">Fuqarolar</h1>
-          <p className="page-subtitle">Samarqand viloyati — ijtimoiy himoyaga muhtoj fuqarolar ro'yxati</p>
+          <h1 className="page-header">{t("fuqarolar")}</h1>
+          <p className="page-subtitle">{t("fuqarolar_royxati")}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
-            <Download className="h-4 w-4" /> Export
+            <Download className="h-4 w-4" /> {t("export")}
           </Button>
-          <Button onClick={() => { setDialogMode("add"); setEditingFuqaro(undefined); setDialogOpen(true); }} size="sm" className="gap-1">
-            <Plus className="h-4 w-4" /> Yangi fuqaro
-          </Button>
+          {canEdit && (
+            <Button onClick={() => { setDialogMode("add"); setEditingFuqaro(undefined); setDialogOpen(true); }} size="sm" className="gap-1">
+              <Plus className="h-4 w-4" /> {t("yangi_fuqaro")}
+            </Button>
+          )}
         </div>
       </div>
 
       <div className="flex flex-col gap-3">
         <div className="relative max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Ism yoki JShShIR bo'yicha qidiring..." value={qidiruv} onChange={e => setQidiruv(e.target.value)} className="pl-10" />
+          <Input placeholder={t("qidirish_fuqaro")} value={qidiruv} onChange={e => setQidiruv(e.target.value)} className="pl-10" />
         </div>
         <div className="flex flex-wrap gap-1 bg-muted rounded-lg p-1">
           <button onClick={() => setTumanFilter("barchasi")}
             className={`px-3 py-1.5 text-xs rounded-md transition-colors ${tumanFilter === "barchasi" ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"}`}
           >
-            Barcha tumanlar
+            {t("barcha_tumanlar")}
           </button>
-          {SAMARQAND_TUMANLARI.map(t => (
-            <button key={t} onClick={() => setTumanFilter(t)}
-              className={`px-3 py-1.5 text-xs rounded-md transition-colors ${tumanFilter === t ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"}`}
+          {SAMARQAND_TUMANLARI.map(tm => (
+            <button key={tm} onClick={() => setTumanFilter(tm)}
+              className={`px-3 py-1.5 text-xs rounded-md transition-colors ${tumanFilter === tm ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"}`}
             >
-              {t.replace(" tumani", "")}
+              {tm.replace(" tumani", "")}
             </button>
           ))}
         </div>
@@ -95,17 +109,27 @@ const Fuqarolar = () => {
                 <div className="flex items-start justify-between">
                   <h3 className="font-semibold text-foreground">{f.ism}</h3>
                   <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
-                    <button onClick={() => { setDialogMode("edit"); setEditingFuqaro(f); setDialogOpen(true); }}
-                      className="p-1 rounded hover:bg-muted"><Pencil className="h-3.5 w-3.5 text-muted-foreground" /></button>
-                    <button onClick={() => handleDelete(f)}
-                      className="p-1 rounded hover:bg-destructive/10"><Trash2 className="h-3.5 w-3.5 text-destructive" /></button>
+                    {canEdit && (
+                      <>
+                        <button onClick={() => { setDialogMode("edit"); setEditingFuqaro(f); setDialogOpen(true); }}
+                          className="p-1 rounded hover:bg-muted"><Pencil className="h-3.5 w-3.5 text-muted-foreground" /></button>
+                        <button onClick={() => handleYakunlash(f)}
+                          className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
+                          <CheckCircle className="h-3.5 w-3.5 text-success" />
+                        </button>
+                      </>
+                    )}
+                    {isHokim && (
+                      <button onClick={() => handleDelete(f)}
+                        className="p-1 rounded hover:bg-destructive/10"><Trash2 className="h-3.5 w-3.5 text-destructive" /></button>
+                    )}
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground mt-0.5">JShShIR: {f.jshshir}</p>
                 <p className="text-xs text-primary font-medium mt-0.5">{f.tuman}</p>
                 <div className="flex flex-wrap gap-3 mt-3 text-sm">
                   <span className="flex items-center gap-1 text-muted-foreground"><Phone className="h-3.5 w-3.5" />{f.telefon}</span>
-                  <span className="flex items-center gap-1 text-muted-foreground"><FileText className="h-3.5 w-3.5" />{f.arizalarSoni} ta ariza</span>
+                  <span className="flex items-center gap-1 text-muted-foreground"><FileText className="h-3.5 w-3.5" />{f.arizalarSoni} {t("ta_ariza")}</span>
                 </div>
                 <div className="mt-3">
                   <span className="status-band status-band--yashil">{f.ijtimoiyHolat}</span>
