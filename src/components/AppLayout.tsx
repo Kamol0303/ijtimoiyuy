@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useAuth, getRoleLabel } from "@/context/AuthContext";
+import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { Bell } from "lucide-react";
 
 export function AppLayout({ children }: { children: ReactNode }) {
@@ -21,6 +22,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
               </span>
             </div>
             <div className="flex items-center gap-3">
+              <LanguageSwitch />
               <button className="relative p-2 rounded-lg hover:bg-muted transition-colors">
                 <Bell className="h-5 w-5 text-muted-foreground" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
