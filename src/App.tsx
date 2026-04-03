@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { LanguageProvider } from "@/context/LanguageContext";
 import { AppLayout } from "@/components/AppLayout";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -21,6 +22,7 @@ import Xabarnomalar from "./pages/Xabarnomalar";
 import Sozlamalar from "./pages/Sozlamalar";
 import AmallarTarixi from "./pages/AmallarTarixi";
 import NazoratPaneli from "./pages/NazoratPaneli";
+import YakunlanganIshlar from "./pages/YakunlanganIshlar";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -53,6 +55,7 @@ function AppRoutes() {
       <Route path="/sozlamalar" element={<ProtectedRoute><Sozlamalar /></ProtectedRoute>} />
       <Route path="/amallar-tarixi" element={<ProtectedRoute><AmallarTarixi /></ProtectedRoute>} />
       <Route path="/nazorat-paneli" element={<ProtectedRoute><NazoratPaneli /></ProtectedRoute>} />
+      <Route path="/yakunlangan" element={<ProtectedRoute><YakunlanganIshlar /></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -63,11 +66,13 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <AuthProvider>
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </AuthProvider>
+      </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
