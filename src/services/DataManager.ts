@@ -128,7 +128,7 @@ export const DataManager = {
     else if (bolim === "arizalar") data = this.getArizalar();
     if (data.length === 0) return "";
     const headers = Object.keys(data[0]);
-    const rows = data.map((d) => headers.map((h) => `"${String(d[h] ?? "")}"`).join(","));
+    const rows = data.map((d) => headers.map((h) => `"${String(d[h] ?? "").replace(/"/g, '""')}"`).join(","));
     return [headers.join(","), ...rows].join("\n");
   },
 

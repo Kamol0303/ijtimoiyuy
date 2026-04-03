@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 export type UserRole = "hokim" | "uy_joy" | "ayollar";
 
@@ -30,10 +30,29 @@ const roleLabels: Record<UserRole, string> = {
 
 export const getRoleLabel = (role: UserRole) => roleLabels[role];
 
+const AUTH_STORAGE_KEY = "ijtimoiy_auth_user";
+
+function getPersistedUser(): User | null {
+  try {
+    const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(getPersistedUser);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
+    } else {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    }
+  }, [user]);
 
   const login = (username: string, password: string): boolean => {
     const found = mockUsers[username];
