@@ -34,6 +34,8 @@ const navItems: NavItem[] = [
   { title: "Hisobotlar", url: "/hisobotlar", icon: Building2, roles: ["hokim"] },
   { title: "Xabarnomalar", url: "/xabarnomalar", icon: Bell, roles: ["hokim", "uy_joy", "ayollar"] },
   { title: "Sozlamalar", url: "/sozlamalar", icon: Settings, roles: ["hokim"] },
+  { title: "Amallar tarixi", url: "/amallar-tarixi", icon: History, roles: ["hokim"] },
+  { title: "Nazorat paneli", url: "/nazorat-paneli", icon: Shield, roles: ["hokim"] },
 ];
 
 export function AppSidebar() {
