@@ -1,6 +1,7 @@
 import {
   LayoutDashboard, Home, Users, FileText, BarChart3, Map, Bell,
-  Settings, Brain, ListOrdered, Building2, LandPlot, LogOut, ShieldCheck
+  Settings, Brain, ListOrdered, Building2, LandPlot, LogOut, ShieldCheck,
+  History, Shield
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";

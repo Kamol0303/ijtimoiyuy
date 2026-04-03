@@ -51,6 +51,8 @@ function AppRoutes() {
       <Route path="/hisobotlar" element={<ProtectedRoute><Hisobotlar /></ProtectedRoute>} />
       <Route path="/xabarnomalar" element={<ProtectedRoute><Xabarnomalar /></ProtectedRoute>} />
       <Route path="/sozlamalar" element={<ProtectedRoute><Sozlamalar /></ProtectedRoute>} />
+      <Route path="/amallar-tarixi" element={<ProtectedRoute><AmallarTarixi /></ProtectedRoute>} />
+      <Route path="/nazorat-paneli" element={<ProtectedRoute><NazoratPaneli /></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
