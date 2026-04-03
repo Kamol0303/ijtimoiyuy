@@ -19,6 +19,8 @@ import AITahlil from "./pages/AITahlil";
 import Hisobotlar from "./pages/Hisobotlar";
 import Xabarnomalar from "./pages/Xabarnomalar";
 import Sozlamalar from "./pages/Sozlamalar";
+import AmallarTarixi from "./pages/AmallarTarixi";
+import NazoratPaneli from "./pages/NazoratPaneli";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
