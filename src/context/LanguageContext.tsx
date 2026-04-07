@@ -44,7 +44,7 @@ const translations: Record<string, Record<Lang, string>> = {
   
   // Uylar page
   "uylar_boshqaruvi": { uz: "Uylar boshqaruvi", ru: "Управление домами" },
-  "jiloy_va_nejiloy": { uz: "Samarqand viloyati — jiloy va nejiloy obyektlarni boshqaring", ru: "Самаркандская область — управление жилыми и нежилыми объектами" },
+  "jiloy_va_nejiloy": { uz: "Samarqand viloyati — turar joy va noturar joy obyektlarni boshqaring", ru: "Самаркандская область — управление жилыми и нежилыми объектами" },
   "yangi_uy": { uz: "Yangi uy", ru: "Новый дом" },
   "export": { uz: "Export", ru: "Экспорт" },
   "barchasi": { uz: "Barchasi", ru: "Все" },
