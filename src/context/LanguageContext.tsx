@@ -44,12 +44,12 @@ const translations: Record<string, Record<Lang, string>> = {
   
   // Uylar page
   "uylar_boshqaruvi": { uz: "Uylar boshqaruvi", ru: "Управление домами" },
-  "jiloy_va_nejiloy": { uz: "Samarqand viloyati — jiloy va nejiloy obyektlarni boshqaring", ru: "Самаркандская область — управление жилыми и нежилыми объектами" },
+  "jiloy_va_nejiloy": { uz: "Samarqand viloyati — turar joy va noturar joy obyektlarni boshqaring", ru: "Самаркандская область — управление жилыми и нежилыми объектами" },
   "yangi_uy": { uz: "Yangi uy", ru: "Новый дом" },
   "export": { uz: "Export", ru: "Экспорт" },
   "barchasi": { uz: "Barchasi", ru: "Все" },
-  "jiloy": { uz: "Jiloy", ru: "Жилой" },
-  "nejiloy": { uz: "Nejiloy", ru: "Нежилой" },
+  "jiloy": { uz: "Turar joy", ru: "Жилой" },
+  "nejiloy": { uz: "Noturar joy", ru: "Нежилой" },
   "barcha_tumanlar": { uz: "Barcha tumanlar", ru: "Все районы" },
   "band": { uz: "Band", ru: "Занят" },
   "bosh": { uz: "Bo'sh", ru: "Свободен" },
@@ -93,6 +93,39 @@ const translations: Record<string, Record<Lang, string>> = {
   "hokim": { uz: "Hokim", ru: "Хоким" },
   "uy_joy_bolimi": { uz: "Uy-joy bo'limi", ru: "Жилищный отдел" },
   "ayollar_bolimi": { uz: "Ayollar bo'limi", ru: "Женский отдел" },
+
+  // Sozlamalar
+  "sozlamalar_tavsifi": { uz: "Samarqand viloyati — tizim sozlamalari va integratsiyalar", ru: "Самаркандская область — настройки системы и интеграции" },
+  "integratsiyalar": { uz: "Integratsiyalar", ru: "Интеграции" },
+  "rollar_va_foydalanuvchilar": { uz: "Rollar va foydalanuvchilar", ru: "Роли и пользователи" },
+  "ulangan": { uz: "Ulangan", ru: "Подключено" },
+  "sozlanmoqda": { uz: "Sozlanmoqda", ru: "Настраивается" },
+  "faol": { uz: "Faol", ru: "Активный" },
+  "ta": { uz: "ta", ru: "шт" },
+  "barcha_statistikani_koradi": { uz: "Barcha statistikani ko'radi", ru: "Видит всю статистику" },
+  "uylar_bilan_ishlaydi": { uz: "Uylar bilan ishlaydi", ru: "Работает с домами" },
+  "ijtimoiy_oilalar_bilan": { uz: "Ijtimoiy oilalar bilan ishlaydi", ru: "Работает с социальными семьями" },
+
+  // Rahbarlar
+  "rahbarlar": { uz: "Rahbarlar", ru: "Руководители" },
+  "rahbarlarni_boshqarish": { uz: "Rahbarlarni boshqarish", ru: "Управление руководителями" },
+  "lavozim": { uz: "Lavozim", ru: "Должность" },
+  "tahrirlash": { uz: "Tahrirlash", ru: "Редактировать" },
+  "saqlash": { uz: "Saqlash", ru: "Сохранить" },
+  "bekor_qilish": { uz: "Bekor qilish", ru: "Отмена" },
+  "murojaatlar_statistikasi": { uz: "Murojaatlar statistikasi", ru: "Статистика обращений" },
+  "jami_murojaatlar": { uz: "Jami murojaatlar", ru: "Всего обращений" },
+  "hal_qilingan": { uz: "Hal qilingan", ru: "Решено" },
+  "jarayonda": { uz: "Jarayonda", ru: "В процессе" },
+
+  // Dashboard role-specific
+  "uy_joy_dashboard": { uz: "Uy-joy bo'limi paneli", ru: "Панель жилищного отдела" },
+  "ayollar_dashboard": { uz: "Ayollar bo'limi paneli", ru: "Панель женского отдела" },
+  "sizning_uylaringiz": { uz: "Sizning uylaringiz", ru: "Ваши дома" },
+  "sizning_arizalaringiz": { uz: "Sizning arizalaringiz", ru: "Ваши заявления" },
+  "ijtimoiy_holat": { uz: "Ijtimoiy holat", ru: "Социальный статус" },
+  "yordam_kerak": { uz: "Yordam kerak", ru: "Нужна помощь" },
+  "himoyada": { uz: "Himoyada", ru: "Под защитой" },
 };
 
 interface LanguageContextType {
