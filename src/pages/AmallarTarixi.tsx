@@ -1,28 +1,30 @@
 import { useState, useEffect } from "react";
 import { History, Search, Download, Filter } from "lucide-react";
 import { AuditService, type AuditLog } from "@/services/AuditService";
+import { useLanguage } from "@/context/LanguageContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 
-const amalLabels: Record<string, string> = {
-  qoshish: "Qo'shildi",
-  tahrirlash: "Tahrirlandi",
-  ochirish: "O'chirildi",
-};
-
-const amalColors: Record<string, string> = {
-  qoshish: "bg-success/10 text-success",
-  tahrirlash: "bg-primary/10 text-primary",
-  ochirish: "bg-destructive/10 text-destructive",
-};
-
 const AmallarTarixi = () => {
+  const { t } = useLanguage();
   const [logs, setLogs] = useState<AuditLog[]>([]);
   const [qidiruv, setQidiruv] = useState("");
   const [bolimFilter, setBolimFilter] = useState("barchasi");
   const [davrFilter, setDavrFilter] = useState<"barchasi" | "bugun" | "hafta" | "oy">("barchasi");
+
+  const amalLabels: Record<string, string> = {
+    qoshish: t("qoshildi"),
+    tahrirlash: t("tahrirlandi"),
+    ochirish: t("ochirildi_label"),
+  };
+
+  const amalColors: Record<string, string> = {
+    qoshish: "bg-success/10 text-success",
+    tahrirlash: "bg-primary/10 text-primary",
+    ochirish: "bg-destructive/10 text-destructive",
+  };
 
   useEffect(() => {
     loadLogs();
@@ -52,7 +54,7 @@ const AmallarTarixi = () => {
   });
 
   function exportLogs() {
-    const headers = ["Sana", "Vaqt", "Foydalanuvchi", "Amal", "Bo'lim", "Ma'lumot", "Tafsilot"];
+    const headers = [t("sana"), t("holat"), t("foydalanuvchi_nomi"), t("holat"), t("bolim"), t("fuqaro"), t("izoh")];
     const rows = filteredLogs.map((l) => [l.sana, l.vaqt, l.foydalanuvchi, amalLabels[l.amal], l.bolim, l.malumot, l.tafsilot].map((v) => `"${v}"`).join(","));
     const csv = [headers.join(","), ...rows].join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -72,29 +74,28 @@ const AmallarTarixi = () => {
         <div>
           <h1 className="page-header flex items-center gap-2">
             <History className="h-7 w-7 text-primary" />
-            Amallar tarixi
+            {t("amallar_tarixi")}
           </h1>
-          <p className="page-subtitle">Barcha o'zgarishlar va amallar qayd etilgan</p>
+          <p className="page-subtitle">{t("barcha_ozgarishlar")}</p>
         </div>
         <Button onClick={exportLogs} variant="outline" className="gap-2">
           <Download className="h-4 w-4" />
-          CSV yuklash
+          {t("csv_yuklash")}
         </Button>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Qidirish..." value={qidiruv} onChange={(e) => setQidiruv(e.target.value)} className="pl-9" />
+          <Input placeholder={t("qidirish_umumiy")} value={qidiruv} onChange={(e) => setQidiruv(e.target.value)} className="pl-9" />
         </div>
         <Select value={bolimFilter} onValueChange={setBolimFilter}>
           <SelectTrigger className="w-[180px]">
             <Filter className="h-4 w-4 mr-2" />
-            <SelectValue placeholder="Bo'lim" />
+            <SelectValue placeholder={t("bolim")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="barchasi">Barcha bo'limlar</SelectItem>
+            <SelectItem value="barchasi">{t("barcha_bolimlar")}</SelectItem>
             {bolimlar.map((b) => (
               <SelectItem key={b} value={b}>{b}</SelectItem>
             ))}
@@ -102,43 +103,41 @@ const AmallarTarixi = () => {
         </Select>
         <Select value={davrFilter} onValueChange={(v) => setDavrFilter(v as typeof davrFilter)}>
           <SelectTrigger className="w-[160px]">
-            <SelectValue placeholder="Davr" />
+            <SelectValue placeholder={t("davr")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="barchasi">Barchasi</SelectItem>
-            <SelectItem value="bugun">Bugun</SelectItem>
-            <SelectItem value="hafta">Haftalik</SelectItem>
-            <SelectItem value="oy">Oylik</SelectItem>
+            <SelectItem value="barchasi">{t("barchasi")}</SelectItem>
+            <SelectItem value="bugun">{t("bugun")}</SelectItem>
+            <SelectItem value="hafta">{t("haftalik")}</SelectItem>
+            <SelectItem value="oy">{t("oylik")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="kpi-card text-center">
           <p className="text-2xl font-bold text-foreground">{filteredLogs.length}</p>
-          <p className="text-xs text-muted-foreground">Jami amallar</p>
+          <p className="text-xs text-muted-foreground">{t("jami_amallar")}</p>
         </div>
         <div className="kpi-card text-center">
           <p className="text-2xl font-bold text-success">{filteredLogs.filter((l) => l.amal === "qoshish").length}</p>
-          <p className="text-xs text-muted-foreground">Qo'shildi</p>
+          <p className="text-xs text-muted-foreground">{t("qoshildi")}</p>
         </div>
         <div className="kpi-card text-center">
           <p className="text-2xl font-bold text-primary">{filteredLogs.filter((l) => l.amal === "tahrirlash").length}</p>
-          <p className="text-xs text-muted-foreground">Tahrirlandi</p>
+          <p className="text-xs text-muted-foreground">{t("tahrirlandi")}</p>
         </div>
         <div className="kpi-card text-center">
           <p className="text-2xl font-bold text-destructive">{filteredLogs.filter((l) => l.amal === "ochirish").length}</p>
-          <p className="text-xs text-muted-foreground">O'chirildi</p>
+          <p className="text-xs text-muted-foreground">{t("ochirildi_label")}</p>
         </div>
       </div>
 
-      {/* Log list */}
       <div className="bg-card rounded-xl border">
         {filteredLogs.length === 0 ? (
           <div className="p-12 text-center text-muted-foreground">
             <History className="h-12 w-12 mx-auto mb-3 opacity-30" />
-            <p>Hozircha amallar tarixi bo'sh</p>
+            <p>{t("amallar_tarixi_bosh")}</p>
           </div>
         ) : (
           <div className="divide-y divide-border">

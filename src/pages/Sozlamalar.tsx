@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { DataManager } from "@/services/DataManager";
 import { toast } from "sonner";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 interface Rahbar {
   id: string;
@@ -29,6 +30,8 @@ const getRahbarlar = (): Rahbar[] => {
 const saveRahbarlar = (data: Rahbar[]) => {
   localStorage.setItem("rahbarlar", JSON.stringify(data));
 };
+
+const CHART_COLORS = ["hsl(var(--primary))", "hsl(142 71% 45%)", "hsl(47 100% 50%)", "hsl(0 84% 60%)"];
 
 const Sozlamalar = () => {
   const { user } = useAuth();
@@ -59,6 +62,24 @@ const Sozlamalar = () => {
     korilmoqda: arizalar.filter(a => a.status === "korib_chiqilmoqda").length,
     rad: arizalar.filter(a => a.status === "rad_etildi").length,
   };
+
+  // Chart data
+  const pieData = [
+    { name: t("tasdiqlandi"), value: statsData.tasdiqlandi },
+    { name: t("jarayonda"), value: statsData.korilmoqda },
+    { name: t("rad_etildi"), value: statsData.rad },
+  ];
+
+  // Tuman bo'yicha statistika
+  const tumanStats: Record<string, number> = {};
+  arizalar.forEach(a => {
+    const short = a.tuman.replace(" tumani", "");
+    tumanStats[short] = (tumanStats[short] || 0) + 1;
+  });
+  const barData = Object.entries(tumanStats)
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 8);
 
   const startEdit = (r: Rahbar) => {
     setEditingId(r.id);
@@ -143,7 +164,7 @@ const Sozlamalar = () => {
                   <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2 mr-3">
                     <Input value={editForm.ism || ""} onChange={e => setEditForm(p => ({ ...p, ism: e.target.value }))} placeholder="Ism" />
                     <Input value={editForm.lavozim || ""} onChange={e => setEditForm(p => ({ ...p, lavozim: e.target.value }))} placeholder={t("lavozim")} />
-                    <Input value={editForm.telefon || ""} onChange={e => setEditForm(p => ({ ...p, telefon: e.target.value }))} placeholder="Telefon" />
+                    <Input value={editForm.telefon || ""} onChange={e => setEditForm(p => ({ ...p, telefon: e.target.value }))} placeholder={t("telefon")} />
                   </div>
                 ) : (
                   <div>
@@ -179,7 +200,7 @@ const Sozlamalar = () => {
           <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
             <BarChart3 className="h-5 w-5 text-primary" />{t("murojaatlar_statistikasi")}
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div className="bg-muted/50 rounded-lg p-3 text-center">
               <p className="text-2xl font-bold text-foreground">{statsData.jami}</p>
               <p className="text-xs text-muted-foreground">{t("jami_murojaatlar")}</p>
@@ -195,6 +216,39 @@ const Sozlamalar = () => {
             <div className="bg-muted/50 rounded-lg p-3 text-center">
               <p className="text-2xl font-bold text-destructive">{statsData.rad}</p>
               <p className="text-xs text-muted-foreground">{t("rad_etildi")}</p>
+            </div>
+          </div>
+
+          {/* Charts */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <h3 className="text-sm font-semibold text-foreground mb-3">{t("statistika_grafik")}</h3>
+              <div className="h-[250px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={({ name, value }) => `${name}: ${value}`}>
+                      {pieData.map((_, idx) => (
+                        <Cell key={idx} fill={CHART_COLORS[idx + 1]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-foreground mb-3">{t("tuman")} — {t("arizalar")}</h3>
+              <div className="h-[250px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={barData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="name" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
+                    <YAxis tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
+                    <Tooltip />
+                    <Bar dataKey="value" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </div>
         </div>

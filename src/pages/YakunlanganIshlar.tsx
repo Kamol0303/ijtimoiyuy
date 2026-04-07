@@ -25,7 +25,7 @@ const YakunlanganIshlar = () => {
     if (bolim === "uylar") DataManager.updateUy(id, { holat: "aktiv" } as any, user?.ism || "");
     if (bolim === "fuqarolar") DataManager.updateFuqaro(id, { holat: "aktiv" } as any, user?.ism || "");
     if (bolim === "arizalar") DataManager.updateAriza(id, { holat: "aktiv" } as any, user?.ism || "");
-    toast.success("Qayta tiklandi");
+    toast.success(t("qayta_tiklandi"));
     setRefreshKey(k => k + 1);
   };
 
@@ -33,7 +33,7 @@ const YakunlanganIshlar = () => {
     if (bolim === "uylar") DataManager.updateUy(id, { holat: "arxivlangan" } as any, user?.ism || "");
     if (bolim === "fuqarolar") DataManager.updateFuqaro(id, { holat: "arxivlangan" } as any, user?.ism || "");
     if (bolim === "arizalar") DataManager.updateAriza(id, { holat: "arxivlangan" } as any, user?.ism || "");
-    toast.success(t("arxivlash") + " — bajarildi");
+    toast.success(t("arxivlash") + " — " + t("bajarildi"));
     setRefreshKey(k => k + 1);
   };
 
@@ -56,7 +56,7 @@ const YakunlanganIshlar = () => {
           {isHokim && (
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={() => handleRestore("uylar", u.id)} className="gap-1">
-                <RotateCcw className="h-3.5 w-3.5" /> Tiklash
+                <RotateCcw className="h-3.5 w-3.5" /> {t("tiklash")}
               </Button>
               <Button variant="outline" size="sm" onClick={() => handleArchive("uylar", u.id)} className="gap-1">
                 <Archive className="h-3.5 w-3.5" /> {t("arxivlash")}
@@ -77,7 +77,7 @@ const YakunlanganIshlar = () => {
           {isHokim && (
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={() => handleRestore("fuqarolar", f.id)} className="gap-1">
-                <RotateCcw className="h-3.5 w-3.5" /> Tiklash
+                <RotateCcw className="h-3.5 w-3.5" /> {t("tiklash")}
               </Button>
               <Button variant="outline" size="sm" onClick={() => handleArchive("fuqarolar", f.id)} className="gap-1">
                 <Archive className="h-3.5 w-3.5" /> {t("arxivlash")}
@@ -97,7 +97,7 @@ const YakunlanganIshlar = () => {
         {isHokim && (
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={() => handleRestore("arizalar", a.id)} className="gap-1">
-              <RotateCcw className="h-3.5 w-3.5" /> Tiklash
+              <RotateCcw className="h-3.5 w-3.5" /> {t("tiklash")}
             </Button>
             <Button variant="outline" size="sm" onClick={() => handleArchive("arizalar", a.id)} className="gap-1">
               <Archive className="h-3.5 w-3.5" /> {t("arxivlash")}
@@ -107,6 +107,8 @@ const YakunlanganIshlar = () => {
       </div>
     ));
   };
+
+  const items = renderItems();
 
   return (
     <div className="space-y-6 animate-fade-in" key={refreshKey}>
@@ -118,7 +120,7 @@ const YakunlanganIshlar = () => {
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder={t("qidirish")} value={qidiruv} onChange={e => setQidiruv(e.target.value)} className="pl-10" />
+          <Input placeholder={t("qidirish_umumiy")} value={qidiruv} onChange={e => setQidiruv(e.target.value)} className="pl-10" />
         </div>
         <div className="flex gap-1 bg-muted rounded-lg p-1">
           {tabs.map(tb => (
@@ -132,11 +134,11 @@ const YakunlanganIshlar = () => {
       </div>
 
       <div className="space-y-3">
-        {renderItems()}
-        {renderItems().length === 0 && (
+        {items}
+        {items.length === 0 && (
           <div className="text-center py-12 text-muted-foreground">
             <CheckCircle className="h-12 w-12 mx-auto mb-3 opacity-30" />
-            <p>Yakunlangan ishlar topilmadi</p>
+            <p>{t("yakunlangan_topilmadi")}</p>
           </div>
         )}
       </div>
