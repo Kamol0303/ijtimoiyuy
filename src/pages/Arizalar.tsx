@@ -6,7 +6,9 @@ import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { ArizaCrudDialog } from "@/components/crud/ArizaCrudDialog";
 import { toast } from "sonner";
+import type { Ariza } from "@/data/mock-data";
 
 const Arizalar = () => {
   const { user } = useAuth();
@@ -15,6 +17,9 @@ const Arizalar = () => {
   const [statusFilter, setStatusFilter] = useState<string>("barchasi");
   const [tumanFilter, setTumanFilter] = useState<string>("barchasi");
   const [refreshKey, setRefreshKey] = useState(0);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogMode, setDialogMode] = useState<"add" | "edit">("add");
+  const [editingAriza, setEditingAriza] = useState<Ariza | undefined>();
 
   const isHokim = user?.role === "hokim";
   const canEdit = user?.role === "hokim" || user?.role === "uy_joy";
@@ -69,7 +74,11 @@ const Arizalar = () => {
           <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
             <Download className="h-4 w-4" /> {t("export")}
           </Button>
-          {canEdit && <Button size="sm"><Plus className="h-4 w-4 mr-2" />{t("yangi_ariza")}</Button>}
+          {canEdit && (
+            <Button size="sm" onClick={() => { setDialogMode("add"); setEditingAriza(undefined); setDialogOpen(true); }}>
+              <Plus className="h-4 w-4 mr-2" />{t("yangi_ariza")}
+            </Button>
+          )}
         </div>
       </div>
 
@@ -129,10 +138,16 @@ const Arizalar = () => {
                   <td className="p-4">
                     <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
                       {canEdit && (
-                        <button onClick={() => handleYakunlash(a.id, a.fuqaroIsm)}
-                          className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
-                          <CheckCircle className="h-3.5 w-3.5 text-success" />
-                        </button>
+                        <>
+                          <button onClick={() => { setDialogMode("edit"); setEditingAriza(a); setDialogOpen(true); }}
+                            className="p-1 rounded hover:bg-muted" title={t("tahrirlash")}>
+                            <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
+                          </button>
+                          <button onClick={() => handleYakunlash(a.id, a.fuqaroIsm)}
+                            className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
+                            <CheckCircle className="h-3.5 w-3.5 text-success" />
+                          </button>
+                        </>
                       )}
                       {isHokim && (
                         <button onClick={() => handleDelete(a.id, a.fuqaroIsm)}
@@ -148,6 +163,8 @@ const Arizalar = () => {
           </table>
         </div>
       </div>
+
+      <ArizaCrudDialog open={dialogOpen} onClose={() => setDialogOpen(false)} mode={dialogMode} ariza={editingAriza} onSaved={refresh} />
     </div>
   );
 };
