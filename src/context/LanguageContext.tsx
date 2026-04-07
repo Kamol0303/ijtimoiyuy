@@ -126,6 +126,75 @@ const translations: Record<string, Record<Lang, string>> = {
   "ijtimoiy_holat": { uz: "Ijtimoiy holat", ru: "Социальный статус" },
   "yordam_kerak": { uz: "Yordam kerak", ru: "Нужна помощь" },
   "himoyada": { uz: "Himoyada", ru: "Под защитой" },
+
+  // Login page
+  "tizimga_kirish": { uz: "Tizimga kirish", ru: "Вход в систему" },
+  "platformasi": { uz: "Samarqand viloyati platformasi", ru: "Платформа Самаркандской области" },
+  "login_parol": { uz: "Login/Parol", ru: "Логин/Пароль" },
+  "telefon": { uz: "Telefon", ru: "Телефон" },
+  "foydalanuvchi_nomi": { uz: "Foydalanuvchi nomi", ru: "Имя пользователя" },
+  "parol": { uz: "Parol", ru: "Пароль" },
+  "parolni_kiriting": { uz: "Parolni kiriting", ru: "Введите пароль" },
+  "kirish": { uz: "Kirish", ru: "Войти" },
+  "login_xato": { uz: "Login yoki parol noto'g'ri", ru: "Неверный логин или пароль" },
+  "sinov_loginlar": { uz: "Sinov uchun loginlar:", ru: "Тестовые логины:" },
+  "sms_kod_yuborish": { uz: "SMS kod yuborish", ru: "Отправить SMS код" },
+  "telefon_raqam": { uz: "Telefon raqam", ru: "Номер телефона" },
+  "sms_tasdiq": { uz: "Telefon raqamingizga tasdiqlash kodi yuboriladi", ru: "Код подтверждения будет отправлен на ваш номер" },
+  "myid_kirish": { uz: "MyID orqali kirish", ru: "Вход через MyID" },
+  "myid_qr": { uz: "MyID ilovasini ochib QR kodni skanerlang", ru: "Откройте приложение MyID и отсканируйте QR код" },
+  "qr_kod": { uz: "QR Kod", ru: "QR Код" },
+  "login_banner": { uz: "Adolatli taqsimot, shaffof nazorat va aqlli boshqaruv", ru: "Справедливое распределение, прозрачный контроль и умное управление" },
+
+  // NazoratPaneli
+  "malumotlar_nazorati": { uz: "Ma'lumotlar nazorati va AI kuzatuv", ru: "Контроль данных и ИИ мониторинг" },
+  "tizim_holati_tavsif": { uz: "Tizim holati va sun'iy intellekt monitoring", ru: "Состояние системы и мониторинг ИИ" },
+  "ai_tahlil_boshlash": { uz: "AI tahlil boshlash", ru: "Запустить анализ ИИ" },
+  "ai_ogohlantirishlar": { uz: "AI ogohlantirishlar", ru: "Предупреждения ИИ" },
+  "barchasini_oquldi": { uz: "Barchasini o'qildi", ru: "Отметить все как прочитанные" },
+  "ai_ogohlantirish_yoq": { uz: "AI ogohlantirishlar yo'q", ru: "Нет предупреждений ИИ" },
+  "yangi": { uz: "Yangi", ru: "Новое" },
+  "bolim_statistikasi": { uz: "Bo'lim statistikasi", ru: "Статистика по отделам" },
+  "bugun_malumot_yoq": { uz: "Bugun hali ma'lumot yo'q", ru: "Сегодня пока нет данных" },
+  "bugungi_amallar": { uz: "Bugungi amallar", ru: "Сегодняшние действия" },
+  "qoshildi": { uz: "Qo'shildi", ru: "Добавлено" },
+  "tahrirlandi": { uz: "Tahrirlandi", ru: "Изменено" },
+  "ochirildi_label": { uz: "O'chirildi", ru: "Удалено" },
+
+  // AmallarTarixi
+  "barcha_ozgarishlar": { uz: "Barcha o'zgarishlar va amallar qayd etilgan", ru: "Все изменения и действия зафиксированы" },
+  "csv_yuklash": { uz: "CSV yuklash", ru: "Скачать CSV" },
+  "qidirish_umumiy": { uz: "Qidirish...", ru: "Поиск..." },
+  "barcha_bolimlar": { uz: "Barcha bo'limlar", ru: "Все отделы" },
+  "bolim": { uz: "Bo'lim", ru: "Отдел" },
+  "davr": { uz: "Davr", ru: "Период" },
+  "bugun": { uz: "Bugun", ru: "Сегодня" },
+  "haftalik": { uz: "Haftalik", ru: "Неделя" },
+  "oylik": { uz: "Oylik", ru: "Месяц" },
+  "jami_amallar": { uz: "Jami amallar", ru: "Всего действий" },
+  "amallar_tarixi_bosh": { uz: "Hozircha amallar tarixi bo'sh", ru: "История действий пока пуста" },
+
+  // YakunlanganIshlar
+  "tiklash": { uz: "Tiklash", ru: "Восстановить" },
+  "yakunlangan_topilmadi": { uz: "Yakunlangan ishlar topilmadi", ru: "Завершённые дела не найдены" },
+  "bajarildi": { uz: "bajarildi", ru: "выполнено" },
+  "qayta_tiklandi": { uz: "Qayta tiklandi", ru: "Восстановлено" },
+
+  // Ariza dialog
+  "ariza_qoshish": { uz: "Yangi ariza qo'shish", ru: "Добавить заявление" },
+  "ariza_tahrirlash": { uz: "Arizani tahrirlash", ru: "Редактировать заявление" },
+  "fuqaro_ismi": { uz: "Fuqaro ismi", ru: "Имя гражданина" },
+  "ariza_turi": { uz: "Ariza turi", ru: "Тип заявления" },
+  "tuman": { uz: "Tuman", ru: "Район" },
+  "ariza_izoh": { uz: "Izoh yozing...", ru: "Напишите примечание..." },
+  "uy_olish": { uz: "Uy olish uchun ariza", ru: "Заявление на жильё" },
+  "ijara_uzaytirish": { uz: "Ijara uzaytirish", ru: "Продление аренды" },
+  "murojaat_yuborish": { uz: "Murojaat yuborish", ru: "Отправить обращение" },
+  "tamir_talabi": { uz: "Ta'mirlash talabi", ru: "Запрос на ремонт" },
+  "qoshish": { uz: "Qo'shish", ru: "Добавить" },
+
+  // Statistics chart
+  "statistika_grafik": { uz: "Arizalar statistikasi (grafik)", ru: "Статистика заявлений (график)" },
 };
 
 interface LanguageContextType {
