@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Shield, Activity, AlertTriangle, Users, FileBarChart, Bell, Brain, TrendingUp, CheckCircle } from "lucide-react";
 import { AIMonitor, type AIAlert } from "@/services/AIMonitor";
 import { AuditService } from "@/services/AuditService";
+import { useLanguage } from "@/context/LanguageContext";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -18,6 +19,7 @@ const alertColors: Record<string, string> = {
 };
 
 const NazoratPaneli = () => {
+  const { t } = useLanguage();
   const [stats, setStats] = useState({ bugungiOzgarishlar: 0, yangiMalumotlar: 0, aiMuammolar: 0, faolFoydalanuvchilar: 0 });
   const [alerts, setAlerts] = useState<AIAlert[]>([]);
   const [logs, setLogs] = useState(AuditService.getBugungi());
@@ -40,14 +42,12 @@ const NazoratPaneli = () => {
     setLogs(AuditService.getBugungi());
   }
 
-  // Bo'lim statistikasi
   const bolimStats: Record<string, number> = {};
   logs.forEach((l) => {
     bolimStats[l.bolim] = (bolimStats[l.bolim] || 0) + 1;
   });
   const sortedBolimlar = Object.entries(bolimStats).sort((a, b) => b[1] - a[1]);
 
-  // Amal turlari
   const amalStats = {
     qoshish: logs.filter((l) => l.amal === "qoshish").length,
     tahrirlash: logs.filter((l) => l.amal === "tahrirlash").length,
@@ -60,75 +60,65 @@ const NazoratPaneli = () => {
         <div>
           <h1 className="page-header flex items-center gap-2">
             <Shield className="h-7 w-7 text-primary" />
-            Ma'lumotlar nazorati va AI kuzatuv
+            {t("malumotlar_nazorati")}
           </h1>
-          <p className="page-subtitle">Tizim holati va sun'iy intellekt monitoring</p>
+          <p className="page-subtitle">{t("tizim_holati_tavsif")}</p>
         </div>
         <Button onClick={() => { AIMonitor.analyze(); refresh(); }} className="gap-2">
           <Brain className="h-4 w-4" />
-          AI tahlil boshlash
+          {t("ai_tahlil_boshlash")}
         </Button>
       </div>
 
-      {/* KPI paneli */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="kpi-card">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-primary/10">
-              <Activity className="h-5 w-5 text-primary" />
-            </div>
+            <div className="p-2 rounded-lg bg-primary/10"><Activity className="h-5 w-5 text-primary" /></div>
             <div>
               <p className="text-2xl font-bold text-foreground">{stats.bugungiOzgarishlar}</p>
-              <p className="text-xs text-muted-foreground">Bugungi o'zgarishlar</p>
+              <p className="text-xs text-muted-foreground">{t("bugungi_ozgarishlar")}</p>
             </div>
           </div>
         </div>
         <div className="kpi-card">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-success/10">
-              <TrendingUp className="h-5 w-5 text-success" />
-            </div>
+            <div className="p-2 rounded-lg bg-success/10"><TrendingUp className="h-5 w-5 text-success" /></div>
             <div>
               <p className="text-2xl font-bold text-foreground">{stats.yangiMalumotlar}</p>
-              <p className="text-xs text-muted-foreground">Yangi ma'lumotlar</p>
+              <p className="text-xs text-muted-foreground">{t("yangi_malumotlar")}</p>
             </div>
           </div>
         </div>
         <div className="kpi-card">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-destructive/10">
-              <AlertTriangle className="h-5 w-5 text-destructive" />
-            </div>
+            <div className="p-2 rounded-lg bg-destructive/10"><AlertTriangle className="h-5 w-5 text-destructive" /></div>
             <div>
               <p className="text-2xl font-bold text-foreground">{stats.aiMuammolar}</p>
-              <p className="text-xs text-muted-foreground">AI aniqlagan muammolar</p>
+              <p className="text-xs text-muted-foreground">{t("ai_muammolar")}</p>
             </div>
           </div>
         </div>
         <div className="kpi-card">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-accent/20">
-              <Users className="h-5 w-5 text-accent-foreground" />
-            </div>
+            <div className="p-2 rounded-lg bg-accent/20"><Users className="h-5 w-5 text-accent-foreground" /></div>
             <div>
               <p className="text-2xl font-bold text-foreground">{stats.faolFoydalanuvchilar}</p>
-              <p className="text-xs text-muted-foreground">Faol foydalanuvchilar</p>
+              <p className="text-xs text-muted-foreground">{t("faol_foydalanuvchilar")}</p>
             </div>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* AI ogohlantirishlar */}
         <div className="bg-card rounded-xl border p-5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Brain className="h-5 w-5 text-primary" />
-              <h2 className="text-lg font-semibold text-foreground">AI ogohlantirishlar</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t("ai_ogohlantirishlar")}</h2>
             </div>
             {alerts.some((a) => !a.oquldi) && (
               <Button variant="ghost" size="sm" onClick={() => { AIMonitor.markAllRead(); refresh(); }}>
-                Barchasini o'qildi
+                {t("barchasini_oquldi")}
               </Button>
             )}
           </div>
@@ -136,7 +126,7 @@ const NazoratPaneli = () => {
             {alerts.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
                 <Brain className="h-10 w-10 mx-auto mb-2 opacity-30" />
-                <p className="text-sm">AI ogohlantirishlar yo'q</p>
+                <p className="text-sm">{t("ai_ogohlantirish_yoq")}</p>
               </div>
             ) : (
               alerts.slice(0, 20).map((alert) => {
@@ -149,7 +139,7 @@ const NazoratPaneli = () => {
                       <p className="text-xs opacity-60 mt-1">{alert.sana} {alert.vaqt}</p>
                     </div>
                     {!alert.oquldi && (
-                      <Badge variant="secondary" className="shrink-0 text-xs">Yangi</Badge>
+                      <Badge variant="secondary" className="shrink-0 text-xs">{t("yangi")}</Badge>
                     )}
                   </div>
                 );
@@ -158,26 +148,22 @@ const NazoratPaneli = () => {
           </div>
         </div>
 
-        {/* Analitika */}
         <div className="space-y-4">
-          {/* Bo'lim statistikasi */}
           <div className="bg-card rounded-xl border p-5">
             <div className="flex items-center gap-2 mb-4">
               <FileBarChart className="h-5 w-5 text-primary" />
-              <h2 className="text-lg font-semibold text-foreground">Bo'lim statistikasi</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t("bolim_statistikasi")}</h2>
             </div>
             {sortedBolimlar.length === 0 ? (
-              <p className="text-sm text-muted-foreground text-center py-4">Bugun hali ma'lumot yo'q</p>
+              <p className="text-sm text-muted-foreground text-center py-4">{t("bugun_malumot_yoq")}</p>
             ) : (
               <div className="space-y-3">
                 {sortedBolimlar.map(([bolim, count]) => (
                   <div key={bolim} className="flex items-center gap-3">
                     <span className="text-sm text-foreground min-w-[100px]">{bolim}</span>
                     <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-primary rounded-full transition-all duration-500"
-                        style={{ width: `${Math.min(100, (count / Math.max(...Object.values(bolimStats))) * 100)}%` }}
-                      />
+                      <div className="h-full bg-primary rounded-full transition-all duration-500"
+                        style={{ width: `${Math.min(100, (count / Math.max(...Object.values(bolimStats))) * 100)}%` }} />
                     </div>
                     <span className="text-sm font-medium text-foreground min-w-[30px] text-right">{count}</span>
                   </div>
@@ -186,21 +172,20 @@ const NazoratPaneli = () => {
             )}
           </div>
 
-          {/* Amal turlari */}
           <div className="bg-card rounded-xl border p-5">
-            <h3 className="text-sm font-semibold text-foreground mb-3">Bugungi amallar</h3>
+            <h3 className="text-sm font-semibold text-foreground mb-3">{t("bugungi_amallar")}</h3>
             <div className="grid grid-cols-3 gap-3">
               <div className="text-center p-3 rounded-lg bg-success/5">
                 <p className="text-xl font-bold text-success">{amalStats.qoshish}</p>
-                <p className="text-xs text-muted-foreground">Qo'shildi</p>
+                <p className="text-xs text-muted-foreground">{t("qoshildi")}</p>
               </div>
               <div className="text-center p-3 rounded-lg bg-primary/5">
                 <p className="text-xl font-bold text-primary">{amalStats.tahrirlash}</p>
-                <p className="text-xs text-muted-foreground">Tahrirlandi</p>
+                <p className="text-xs text-muted-foreground">{t("tahrirlandi")}</p>
               </div>
               <div className="text-center p-3 rounded-lg bg-destructive/5">
                 <p className="text-xl font-bold text-destructive">{amalStats.ochirish}</p>
-                <p className="text-xs text-muted-foreground">O'chirildi</p>
+                <p className="text-xs text-muted-foreground">{t("ochirildi_label")}</p>
               </div>
             </div>
           </div>
