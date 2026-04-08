@@ -83,10 +83,12 @@ const Arizalar = () => {
           <p className="page-subtitle">{t("barcha_arizalar")}</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
-            <Download className="h-4 w-4" /> {t("export")}
-          </Button>
-          {canEdit && (
+          {canExport && (
+            <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
+              <Download className="h-4 w-4" /> {t("export")}
+            </Button>
+          )}
+          {canAdd && (
             <Button size="sm" onClick={() => { setDialogMode("add"); setEditingAriza(undefined); setDialogOpen(true); }}>
               <Plus className="h-4 w-4 mr-2" />{t("yangi_ariza")}
             </Button>
