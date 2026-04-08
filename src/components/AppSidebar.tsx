@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Home, Users, FileText, BarChart3, Map, Bell,
-  Settings, Brain, ListOrdered, Building2, LandPlot, LogOut, ShieldCheck,
+  Settings, ListOrdered, Building2, LandPlot, LogOut, ShieldCheck,
   History, Shield, CheckCircle2
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
