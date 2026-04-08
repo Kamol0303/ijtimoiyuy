@@ -49,7 +49,7 @@ function AppRoutes() {
       <Route path="/xarita" element={<ProtectedRoute><Xarita /></ProtectedRoute>} />
       <Route path="/yer-uchastkalari" element={<ProtectedRoute><YerUchastkalari /></ProtectedRoute>} />
       <Route path="/navbat" element={<ProtectedRoute><Navbat /></ProtectedRoute>} />
-      <Route path="/ai" element={<ProtectedRoute><AITahlil /></ProtectedRoute>} />
+      
       <Route path="/hisobotlar" element={<ProtectedRoute><Hisobotlar /></ProtectedRoute>} />
       <Route path="/xabarnomalar" element={<ProtectedRoute><Xabarnomalar /></ProtectedRoute>} />
       <Route path="/sozlamalar" element={<ProtectedRoute><Sozlamalar /></ProtectedRoute>} />

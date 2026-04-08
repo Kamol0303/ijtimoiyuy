@@ -23,8 +23,7 @@ function logAndNotify(
   malumot: string,
   tafsilot: string
 ) {
-  const log = AuditService.log({ foydalanuvchi, amal, bolim, malumot, tafsilot });
-  AIMonitor.onNewLog(log);
+  AuditService.log({ foydalanuvchi, amal, bolim, malumot, tafsilot });
 }
 
 const UYLAR_KEY = "ijtimoiy_uylar";

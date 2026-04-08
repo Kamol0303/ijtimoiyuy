@@ -1,12 +1,10 @@
-import { Home, Users, Building2, AlertTriangle, FileText, Brain, TrendingUp, Clock, Activity, Shield, BarChart3, Heart, ShieldCheck } from "lucide-react";
+import { Home, Users, Building2, AlertTriangle, FileText, TrendingUp, Clock, Activity, Shield, BarChart3, Heart, ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { KPICard } from "@/components/KPICard";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { DataManager } from "@/services/DataManager";
 import { AuditService } from "@/services/AuditService";
-import { AIMonitor } from "@/services/AIMonitor";
-import { aiTavsiyalar } from "@/data/mock-data";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -23,12 +21,9 @@ const Dashboard = () => {
   const jiloyUylar = uylar.filter(u => u.tur === "jiloy").length;
   const nejiloyUylar = uylar.filter(u => u.tur === "nejiloy").length;
 
-  // System status
   const todayLogs = AuditService.getAll().filter(l => l.sana.startsWith(new Date().toISOString().slice(0, 10)));
-  const alerts = AIMonitor.getAlerts();
   const isHokim = user?.role === "hokim";
 
-  // Uy-joy bo'limi dashboard
   if (user?.role === "uy_joy") {
     return (
       <div className="space-y-6 animate-fade-in">
@@ -88,7 +83,6 @@ const Dashboard = () => {
     );
   }
 
-  // Ayollar bo'limi dashboard
   if (user?.role === "ayollar") {
     const ayollarFuqarolar = fuqarolar.filter(f => 
       f.ijtimoiyHolat.includes("ona") || f.ijtimoiyHolat.includes("ayol") || 
@@ -158,7 +152,6 @@ const Dashboard = () => {
     );
   }
 
-  // Hokim dashboard (original)
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
@@ -166,7 +159,6 @@ const Dashboard = () => {
         <p className="page-subtitle">{t("xush_kelibsiz")}, {user?.ism}! — {t("samarqand_viloyati")}</p>
       </div>
 
-      {/* KPI Cards - clickable */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard title={t("umumiy_uylar")} value={uylar.length} icon={<Home className="h-5 w-5 text-primary" />}
           trend={`${t("jiloy")}: ${jiloyUylar} | ${t("nejiloy")}: ${nejiloyUylar}`}
@@ -182,25 +174,21 @@ const Dashboard = () => {
           onClick={() => navigate("/uylar?status=muddat_yaqin")} />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <KPICard title={t("ijtimoiy_oilalar")} value={fuqarolar.length} icon={<Users className="h-5 w-5 text-primary" />}
           onClick={() => navigate("/fuqarolar")} />
         <KPICard title={t("arizalar")} value={arizalar.length} icon={<FileText className="h-5 w-5 text-primary" />}
           trend={`${arizalar.filter(a => a.status === "korib_chiqilmoqda").length} ${t("ta_korib_chiqilmoqda")}`}
           onClick={() => navigate("/arizalar")} />
-        <KPICard title={t("ai_tavsiyalar")} value={aiTavsiyalar.length} icon={<Brain className="h-5 w-5 text-primary" />}
-          trend={t("bugun_yangilandi")}
-          onClick={() => navigate("/ai")} />
       </div>
 
-      {/* System Status Panel - Hokim only */}
       {isHokim && (
         <div className="bg-card rounded-xl border p-5">
           <div className="flex items-center gap-2 mb-4">
             <Shield className="h-5 w-5 text-primary" />
             <h2 className="text-lg font-semibold text-foreground">{t("tizim_holati")}</h2>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="bg-muted/50 rounded-lg p-3 text-center">
               <Activity className="h-5 w-5 text-primary mx-auto mb-1" />
               <p className="text-2xl font-bold text-foreground">{todayLogs.length}</p>
@@ -212,11 +200,6 @@ const Dashboard = () => {
               <p className="text-xs text-muted-foreground">{t("yangi_malumotlar")}</p>
             </div>
             <div className="bg-muted/50 rounded-lg p-3 text-center">
-              <AlertTriangle className="h-5 w-5 text-warning mx-auto mb-1" />
-              <p className="text-2xl font-bold text-foreground">{alerts.length}</p>
-              <p className="text-xs text-muted-foreground">{t("ai_muammolar")}</p>
-            </div>
-            <div className="bg-muted/50 rounded-lg p-3 text-center">
               <BarChart3 className="h-5 w-5 text-primary mx-auto mb-1" />
               <p className="text-2xl font-bold text-foreground">1</p>
               <p className="text-xs text-muted-foreground">{t("faol_foydalanuvchilar")}</p>
@@ -225,55 +208,28 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* AI Recommendations & Recent */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-card rounded-xl border p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <Brain className="h-5 w-5 text-primary" />
-            <h2 className="text-lg font-semibold text-foreground">{t("ai_tavsiyalar")}</h2>
-          </div>
-          <div className="space-y-3">
-            {aiTavsiyalar.map(tav => (
-              <div key={tav.id} className={`flex items-start gap-3 p-3 rounded-lg ${
-                tav.tur === "xavf" ? "bg-destructive/5 border border-destructive/20" :
-                tav.tur === "ogohlantirish" ? "bg-warning/10 border border-warning/20" :
-                "bg-primary/5 border border-primary/20"
-              }`}>
-                {tav.tur === "xavf" ? <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 shrink-0" /> :
-                 tav.tur === "ogohlantirish" ? <AlertTriangle className="h-4 w-4 text-warning mt-0.5 shrink-0" /> :
-                 <TrendingUp className="h-4 w-4 text-primary mt-0.5 shrink-0" />}
-                <div>
-                  <p className="text-sm text-foreground">{tav.xabar}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{tav.sana}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+      <div className="bg-card rounded-xl border p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <FileText className="h-5 w-5 text-primary" />
+          <h2 className="text-lg font-semibold text-foreground">{t("songgi_arizalar")}</h2>
         </div>
-
-        <div className="bg-card rounded-xl border p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <FileText className="h-5 w-5 text-primary" />
-            <h2 className="text-lg font-semibold text-foreground">{t("songgi_arizalar")}</h2>
-          </div>
-          <div className="space-y-3">
-            {arizalar.slice(0, 5).map(a => (
-              <div key={a.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                <div>
-                  <p className="text-sm font-medium text-foreground">{a.fuqaroIsm}</p>
-                  <p className="text-xs text-muted-foreground">{a.tur} — {a.tuman}</p>
-                </div>
-                <span className={`status-band ${
-                  a.status === "tasdiqlandi" ? "status-band--yashil" :
-                  a.status === "rad_etildi" ? "status-band--qizil" :
-                  "status-band--sariq"
-                }`}>
-                  {a.status === "tasdiqlandi" ? t("tasdiqlandi") :
-                   a.status === "rad_etildi" ? t("rad_etildi") : t("korilmoqda")}
-                </span>
+        <div className="space-y-3">
+          {arizalar.slice(0, 5).map(a => (
+            <div key={a.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+              <div>
+                <p className="text-sm font-medium text-foreground">{a.fuqaroIsm}</p>
+                <p className="text-xs text-muted-foreground">{a.tur} — {a.tuman}</p>
               </div>
-            ))}
-          </div>
+              <span className={`status-band ${
+                a.status === "tasdiqlandi" ? "status-band--yashil" :
+                a.status === "rad_etildi" ? "status-band--qizil" :
+                "status-band--sariq"
+              }`}>
+                {a.status === "tasdiqlandi" ? t("tasdiqlandi") :
+                 a.status === "rad_etildi" ? t("rad_etildi") : t("korilmoqda")}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </div>

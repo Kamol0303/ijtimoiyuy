@@ -1,20 +1,14 @@
 import { navbatRoyxati } from "@/data/mock-data";
-import { ListOrdered, Brain, Trophy } from "lucide-react";
+import { ListOrdered, Trophy } from "lucide-react";
 
 const Navbat = () => (
   <div className="space-y-6 animate-fade-in">
     <div>
       <h1 className="page-header">Navbat tizimi</h1>
-      <p className="page-subtitle">Jiloy uylar uchun navbat va AI tavsiyalar</p>
+      <p className="page-subtitle">Turar joy uylar uchun navbat tizimi</p>
     </div>
 
     <div className="bg-card rounded-xl border overflow-hidden">
-      <div className="p-5 border-b bg-muted/30">
-        <div className="flex items-center gap-2">
-          <Brain className="h-5 w-5 text-primary" />
-          <span className="text-sm font-medium text-foreground">AI tavsiyasi: Eng yuqori ball — Ergasheva Dilnoza (92 ball), ko'p bolali oila</span>
-        </div>
-      </div>
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
