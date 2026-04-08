@@ -6,7 +6,7 @@ const translations: Record<string, Record<Lang, string>> = {
   // Dashboard
   "bosh_sahifa": { uz: "Bosh sahifa", ru: "Главная" },
   "xush_kelibsiz": { uz: "Xush kelibsiz", ru: "Добро пожаловать" },
-  "samarqand_viloyati": { uz: "Samarqand viloyati", ru: "Самаркандская область" },
+  "samarqand_viloyati": { uz: "Samarqand shahar hokimligi", ru: "Хокимият города Самарканда" },
   "umumiy_uylar": { uz: "Umumiy uylar", ru: "Всего домов" },
   "band_uylar": { uz: "Band uylar", ru: "Занятые дома" },
   "bosh_uylar": { uz: "Bo'sh uylar", ru: "Свободные дома" },
@@ -44,7 +44,7 @@ const translations: Record<string, Record<Lang, string>> = {
   
   // Uylar page
   "uylar_boshqaruvi": { uz: "Uylar boshqaruvi", ru: "Управление домами" },
-  "jiloy_va_nejiloy": { uz: "Samarqand viloyati — turar joy va noturar joy obyektlarni boshqaring", ru: "Самаркандская область — управление жилыми и нежилыми объектами" },
+  "jiloy_va_nejiloy": { uz: "Samarqand shahar hokimligi — turar joy va noturar joy obyektlarni boshqaring", ru: "Хокимият города Самарканда — управление жилыми и нежилыми объектами" },
   "yangi_uy": { uz: "Yangi uy", ru: "Новый дом" },
   "export": { uz: "Export", ru: "Экспорт" },
   "barchasi": { uz: "Barchasi", ru: "Все" },
@@ -60,7 +60,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "qidirish": { uz: "Uy nomi yoki manzil bo'yicha qidirish...", ru: "Поиск по названию или адресу..." },
   
   // Fuqarolar page
-  "fuqarolar_royxati": { uz: "Samarqand viloyati — ijtimoiy himoyaga muhtoj fuqarolar ro'yxati", ru: "Самаркандская область — список граждан, нуждающихся в социальной защите" },
+  "fuqarolar_royxati": { uz: "Samarqand shahar hokimligi — ijtimoiy himoyaga muhtoj fuqarolar ro'yxati", ru: "Хокимият города Самарканда — список граждан, нуждающихся в социальной защите" },
   "yangi_fuqaro": { uz: "Yangi fuqaro", ru: "Новый гражданин" },
   "qidirish_fuqaro": { uz: "Ism yoki JShShIR bo'yicha qidiring...", ru: "Поиск по имени или ПИНФЛ..." },
   "ta_ariza": { uz: "ta ariza", ru: "заявлений" },
@@ -95,7 +95,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "ayollar_bolimi": { uz: "Ayollar bo'limi", ru: "Женский отдел" },
 
   // Sozlamalar
-  "sozlamalar_tavsifi": { uz: "Samarqand viloyati — tizim sozlamalari va integratsiyalar", ru: "Самаркандская область — настройки системы и интеграции" },
+  "sozlamalar_tavsifi": { uz: "Samarqand shahar hokimligi — tizim sozlamalari va integratsiyalar", ru: "Хокимият города Самарканда — настройки системы и интеграции" },
   "integratsiyalar": { uz: "Integratsiyalar", ru: "Интеграции" },
   "rollar_va_foydalanuvchilar": { uz: "Rollar va foydalanuvchilar", ru: "Роли и пользователи" },
   "ulangan": { uz: "Ulangan", ru: "Подключено" },
@@ -129,7 +129,7 @@ const translations: Record<string, Record<Lang, string>> = {
 
   // Login page
   "tizimga_kirish": { uz: "Tizimga kirish", ru: "Вход в систему" },
-  "platformasi": { uz: "Samarqand viloyati platformasi", ru: "Платформа Самаркандской области" },
+  "platformasi": { uz: "Samarqand shahar hokimligi platformasi", ru: "Платформа хокимията города Самарканда" },
   "login_parol": { uz: "Login/Parol", ru: "Логин/Пароль" },
   "telefon": { uz: "Telefon", ru: "Телефон" },
   "foydalanuvchi_nomi": { uz: "Foydalanuvchi nomi", ru: "Имя пользователя" },

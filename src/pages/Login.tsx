@@ -35,8 +35,8 @@ const Login = () => {
         <img src={suzani} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
         <div className="absolute inset-0 govtech-gradient opacity-90" />
         <div className="relative z-10 text-center px-12">
-          <img src={logo} alt="IjtimoiyUy AI" className="w-24 h-24 mx-auto mb-6" />
-          <h1 className="text-4xl font-bold text-primary-foreground mb-4">IjtimoiyUy AI</h1>
+          <img src={logo} alt="Ijtimoiy-uy AI" className="w-24 h-24 mx-auto mb-6" />
+          <h1 className="text-4xl font-bold text-primary-foreground mb-4">Ijtimoiy-uy AI</h1>
           <p className="text-lg text-primary-foreground/80">{t("samarqand_viloyati")} — {t("login_banner")}</p>
         </div>
       </div>
@@ -48,8 +48,8 @@ const Login = () => {
         </div>
         <div className="w-full max-w-md animate-slide-up">
           <div className="lg:hidden flex items-center gap-3 mb-8 justify-center">
-            <img src={logo} alt="IjtimoiyUy AI" className="w-12 h-12" />
-            <h1 className="text-2xl font-bold text-foreground">IjtimoiyUy AI</h1>
+            <img src={logo} alt="Ijtimoiy-uy AI" className="w-12 h-12" />
+            <h1 className="text-2xl font-bold text-foreground">Ijtimoiy-uy AI</h1>
           </div>
 
           <h2 className="text-2xl font-bold text-foreground mb-2">{t("tizimga_kirish")}</h2>

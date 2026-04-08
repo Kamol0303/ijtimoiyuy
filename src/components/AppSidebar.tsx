@@ -55,10 +55,10 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" className="border-r-0">
       <SidebarContent className="bg-sidebar">
         <div className="flex items-center gap-3 px-4 py-5 border-b border-sidebar-border">
-          <img src={logo} alt="IjtimoiyUy AI" className="w-9 h-9 rounded-lg" />
+          <img src={logo} alt="Ijtimoiy-uy AI" className="w-9 h-9 rounded-lg" />
           {!collapsed && (
             <div className="flex flex-col">
-              <span className="text-sm font-bold text-sidebar-foreground">IjtimoiyUy AI</span>
+              <span className="text-sm font-bold text-sidebar-foreground">Ijtimoiy-uy AI</span>
               <span className="text-xs text-sidebar-foreground/60">{t("samarqand_viloyati")}</span>
             </div>
           )}
