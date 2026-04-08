@@ -13,7 +13,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [tab, setTab] = useState<"login" | "telefon" | "myid">("login");
+  
   const { login } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
