@@ -21,8 +21,13 @@ const Fuqarolar = () => {
   const [editingFuqaro, setEditingFuqaro] = useState<Fuqaro | undefined>();
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const isHokim = user?.role === "hokim";
-  const canEdit = user?.role === "hokim" || user?.role === "uy_joy";
+  const role = user?.role;
+  const canAdd = role ? PermissionService.canAdd(role, "fuqarolar") : false;
+  const canEditPerm = role ? PermissionService.canEdit(role, "fuqarolar") : false;
+  const canDelete = role ? PermissionService.canDelete(role, "fuqarolar") : false;
+  const canFinish = role ? PermissionService.canFinish(role, "fuqarolar") : false;
+  const canExport = role ? PermissionService.canExport(role, "fuqarolar") : false;
+  const isHardDelete = role ? PermissionService.isHardDelete(role) : false;
 
   const fuqarolar = DataManager.getFuqarolar().filter(f => (f as any).holat !== "yakunlangan" && (f as any).holat !== "arxivlangan");
 
