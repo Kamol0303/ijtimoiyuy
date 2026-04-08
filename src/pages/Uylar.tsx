@@ -53,10 +53,16 @@ const Uylar = () => {
   const refresh = useCallback(() => setRefreshKey((k) => k + 1), []);
 
   const handleDelete = (uy: Uy) => {
-    if (!isHokim) return;
-    if (confirm(`"${uy.nomi}" uyini o'chirishni xohlaysizmi?`)) {
-      DataManager.deleteUy(uy.id, user?.ism || "Noma'lum");
-      toast.success("Uy o'chirildi");
+    if (!canDelete) return;
+    const label = isHardDelete ? "o'chirishni" : "arxivlashni";
+    if (confirm(`"${uy.nomi}" uyini ${label} xohlaysizmi?`)) {
+      if (isHardDelete) {
+        DataManager.deleteUy(uy.id, user?.ism || "Noma'lum");
+        toast.success("Uy o'chirildi");
+      } else {
+        DataManager.updateUy(uy.id, { holat: "arxivlangan" } as any, user?.ism || "");
+        toast.success(`"${uy.nomi}" arxivlandi`);
+      }
       refresh();
     }
   };
