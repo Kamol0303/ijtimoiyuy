@@ -22,8 +22,13 @@ const Arizalar = () => {
   const [dialogMode, setDialogMode] = useState<"add" | "edit">("add");
   const [editingAriza, setEditingAriza] = useState<Ariza | undefined>();
 
-  const isHokim = user?.role === "hokim";
-  const canEdit = user?.role === "hokim" || user?.role === "uy_joy";
+  const role = user?.role;
+  const canAdd = role ? PermissionService.canAdd(role, "arizalar") : false;
+  const canEditPerm = role ? PermissionService.canEdit(role, "arizalar") : false;
+  const canDelete = role ? PermissionService.canDelete(role, "arizalar") : false;
+  const canFinish = role ? PermissionService.canFinish(role, "arizalar") : false;
+  const canExport = role ? PermissionService.canExport(role, "arizalar") : false;
+  const isHardDelete = role ? PermissionService.isHardDelete(role) : false;
 
   const arizalar = DataManager.getArizalar().filter(a => (a as any).holat !== "yakunlangan" && (a as any).holat !== "arxivlangan");
 
