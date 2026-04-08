@@ -195,6 +195,11 @@ const translations: Record<string, Record<Lang, string>> = {
 
   // Statistics chart
   "statistika_grafik": { uz: "Arizalar statistikasi (grafik)", ru: "Статистика заявлений (график)" },
+
+  // Kanban
+  "royxat": { uz: "Ro'yxat", ru: "Список" },
+  "kanban": { uz: "Kanban", ru: "Канбан" },
+  "yangi_arizalar": { uz: "Yangi arizalar", ru: "Новые заявления" },
 };
 
 interface LanguageContextType {
