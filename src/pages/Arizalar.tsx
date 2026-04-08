@@ -22,6 +22,7 @@ const Arizalar = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<"add" | "edit">("add");
   const [editingAriza, setEditingAriza] = useState<Ariza | undefined>();
+  const [viewMode, setViewMode] = useState<"list" | "kanban">("list");
 
   const role = user?.role;
   const canAdd = role ? PermissionService.canAdd(role, "arizalar") : false;
