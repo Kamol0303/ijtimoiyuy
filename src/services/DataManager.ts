@@ -1,6 +1,5 @@
 import { type Uy, type Fuqaro, type Ariza, uylar as defaultUylar, fuqarolar as defaultFuqarolar, arizalar as defaultArizalar } from "@/data/mock-data";
 import { AuditService } from "./AuditService";
-import { AIMonitor } from "./AIMonitor";
 
 function getOrInit<T>(key: string, defaults: T[]): T[] {
   try {
@@ -24,8 +23,7 @@ function logAndNotify(
   malumot: string,
   tafsilot: string
 ) {
-  const log = AuditService.log({ foydalanuvchi, amal, bolim, malumot, tafsilot });
-  AIMonitor.onNewLog(log);
+  AuditService.log({ foydalanuvchi, amal, bolim, malumot, tafsilot });
 }
 
 const UYLAR_KEY = "ijtimoiy_uylar";

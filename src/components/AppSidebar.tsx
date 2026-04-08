@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Home, Users, FileText, BarChart3, Map, Bell,
-  Settings, Brain, ListOrdered, Building2, LandPlot, LogOut, ShieldCheck,
+  Settings, ListOrdered, Building2, LandPlot, LogOut, ShieldCheck,
   History, Shield, CheckCircle2
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
@@ -31,7 +31,7 @@ const navItems: NavItem[] = [
   { titleKey: "xarita", url: "/xarita", icon: Map, roles: ["hokim", "uy_joy"] },
   { titleKey: "yer_uchastkalari", url: "/yer-uchastkalari", icon: LandPlot, roles: ["hokim", "uy_joy"] },
   { titleKey: "navbat", url: "/navbat", icon: ListOrdered, roles: ["hokim", "uy_joy"] },
-  { titleKey: "ai_tahlil", url: "/ai", icon: Brain, roles: ["hokim"] },
+  
   { titleKey: "hisobotlar", url: "/hisobotlar", icon: Building2, roles: ["hokim"] },
   { titleKey: "xabarnomalar", url: "/xabarnomalar", icon: Bell, roles: ["hokim", "uy_joy", "ayollar"] },
   { titleKey: "yakunlangan_ishlar", url: "/yakunlangan", icon: CheckCircle2, roles: ["hokim"] },
