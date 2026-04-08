@@ -95,7 +95,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "ayollar_bolimi": { uz: "Ayollar bo'limi", ru: "Женский отдел" },
 
   // Sozlamalar
-  "sozlamalar_tavsifi": { uz: "Samarqand viloyati — tizim sozlamalari va integratsiyalar", ru: "Самаркандская область — настройки системы и интеграции" },
+  "sozlamalar_tavsifi": { uz: "Samarqand shahar hokimligi — tizim sozlamalari va integratsiyalar", ru: "Хокимият города Самарканда — настройки системы и интеграции" },
   "integratsiyalar": { uz: "Integratsiyalar", ru: "Интеграции" },
   "rollar_va_foydalanuvchilar": { uz: "Rollar va foydalanuvchilar", ru: "Роли и пользователи" },
   "ulangan": { uz: "Ulangan", ru: "Подключено" },
