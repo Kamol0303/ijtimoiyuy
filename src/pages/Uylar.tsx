@@ -27,8 +27,13 @@ const Uylar = () => {
   const [editingUy, setEditingUy] = useState<Uy | undefined>();
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const isHokim = user?.role === "hokim";
-  const canEdit = user?.role === "hokim" || user?.role === "uy_joy";
+  const role = user?.role;
+  const canAdd = role ? PermissionService.canAdd(role, "uylar") : false;
+  const canEditPerm = role ? PermissionService.canEdit(role, "uylar") : false;
+  const canDelete = role ? PermissionService.canDelete(role, "uylar") : false;
+  const canFinish = role ? PermissionService.canFinish(role, "uylar") : false;
+  const canExport = role ? PermissionService.canExport(role, "uylar") : false;
+  const isHardDelete = role ? PermissionService.isHardDelete(role) : false;
 
   useEffect(() => {
     const s = searchParams.get("status");
