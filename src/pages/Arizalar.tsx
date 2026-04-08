@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { FileText, Search, Plus, Download, CheckCircle, Pencil, Trash2, Archive } from "lucide-react";
+import { FileText, Search, Plus, Download, CheckCircle, Pencil, Trash2, Archive, List, LayoutGrid } from "lucide-react";
 import { SAMARQAND_TUMANLARI } from "@/data/mock-data";
 import { DataManager } from "@/services/DataManager";
 import { useAuth } from "@/context/AuthContext";
@@ -8,6 +8,7 @@ import { PermissionService } from "@/services/PermissionService";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArizaCrudDialog } from "@/components/crud/ArizaCrudDialog";
+import { ArizaKanbanBoard } from "@/components/kanban/ArizaKanbanBoard";
 import { toast } from "sonner";
 import type { Ariza } from "@/data/mock-data";
 
