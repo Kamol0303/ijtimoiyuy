@@ -1,6 +1,5 @@
 import { type Uy, type Fuqaro, type Ariza, uylar as defaultUylar, fuqarolar as defaultFuqarolar, arizalar as defaultArizalar } from "@/data/mock-data";
 import { AuditService } from "./AuditService";
-import { AIMonitor } from "./AIMonitor";
 
 function getOrInit<T>(key: string, defaults: T[]): T[] {
   try {
