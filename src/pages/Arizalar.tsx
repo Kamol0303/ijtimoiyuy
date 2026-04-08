@@ -113,87 +113,93 @@ const Arizalar = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-col sm:flex-row gap-3">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder={t("qidirish_ariza")} value={qidiruv} onChange={e => setQidiruv(e.target.value)} className="pl-10" />
-          </div>
-          <div className="flex gap-1 bg-muted rounded-lg p-1">
-            {["barchasi", "korib_chiqilmoqda", "tasdiqlandi", "rad_etildi"].map(s => (
-              <button key={s} onClick={() => setStatusFilter(s)}
-                className={`px-3 py-2 text-sm rounded-md transition-colors ${statusFilter === s ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"}`}
+      {viewMode === "kanban" ? (
+        <ArizaKanbanBoard onRefresh={refresh} refreshKey={refreshKey} />
+      ) : (
+        <>
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input placeholder={t("qidirish_ariza")} value={qidiruv} onChange={e => setQidiruv(e.target.value)} className="pl-10" />
+              </div>
+              <div className="flex gap-1 bg-muted rounded-lg p-1">
+                {["barchasi", "korib_chiqilmoqda", "tasdiqlandi", "rad_etildi"].map(s => (
+                  <button key={s} onClick={() => setStatusFilter(s)}
+                    className={`px-3 py-2 text-sm rounded-md transition-colors ${statusFilter === s ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"}`}
+                  >
+                    {s === "barchasi" ? t("barchasi") : statusLabel[s]}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-1 bg-muted rounded-lg p-1">
+              <button onClick={() => setTumanFilter("barchasi")}
+                className={`px-3 py-1.5 text-xs rounded-md transition-colors ${tumanFilter === "barchasi" ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"}`}
               >
-                {s === "barchasi" ? t("barchasi") : statusLabel[s]}
+                {t("barcha_tumanlar")}
               </button>
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-1 bg-muted rounded-lg p-1">
-          <button onClick={() => setTumanFilter("barchasi")}
-            className={`px-3 py-1.5 text-xs rounded-md transition-colors ${tumanFilter === "barchasi" ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"}`}
-          >
-            {t("barcha_tumanlar")}
-          </button>
-          {SAMARQAND_TUMANLARI.map(tm => (
-            <button key={tm} onClick={() => setTumanFilter(tm)}
-              className={`px-3 py-1.5 text-xs rounded-md transition-colors ${tumanFilter === tm ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"}`}
-            >
-              {tm.replace(" tumani", "")}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-card rounded-xl border overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b bg-muted/50">
-                <th className="text-left p-4 text-sm font-medium text-muted-foreground">{t("fuqaro")}</th>
-                <th className="text-left p-4 text-sm font-medium text-muted-foreground">{t("turi")}</th>
-                <th className="text-left p-4 text-sm font-medium text-muted-foreground">{t("sana")}</th>
-                <th className="text-left p-4 text-sm font-medium text-muted-foreground">{t("holat")}</th>
-                <th className="text-left p-4 text-sm font-medium text-muted-foreground">{t("izoh")}</th>
-                <th className="text-left p-4 text-sm font-medium text-muted-foreground"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map(a => (
-                <tr key={a.id} className="border-b last:border-b-0 hover:bg-muted/30 transition-colors group">
-                  <td className="p-4 text-sm font-medium text-foreground">{a.fuqaroIsm}</td>
-                  <td className="p-4 text-sm text-muted-foreground">{a.tur}</td>
-                  <td className="p-4 text-sm text-muted-foreground">{a.sana}</td>
-                  <td className="p-4"><span className={`status-band ${statusClass[a.status]}`}>{statusLabel[a.status]}</span></td>
-                  <td className="p-4 text-sm text-muted-foreground max-w-xs truncate">{a.izoh}</td>
-                  <td className="p-4">
-                    <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
-                      {canEditPerm && (
-                        <button onClick={() => { setDialogMode("edit"); setEditingAriza(a); setDialogOpen(true); }}
-                          className="p-1 rounded hover:bg-muted" title={t("tahrirlash")}>
-                          <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
-                        </button>
-                      )}
-                      {canFinish && (
-                        <button onClick={() => handleYakunlash(a.id, a.fuqaroIsm)}
-                          className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
-                          <CheckCircle className="h-3.5 w-3.5 text-success" />
-                        </button>
-                      )}
-                      {canDelete && (
-                        <button onClick={() => handleDelete(a.id, a.fuqaroIsm)}
-                          className="p-1 rounded hover:bg-destructive/10" title={isHardDelete ? t("ochirish") : "Arxivlash"}>
-                          {isHardDelete ? <Trash2 className="h-3.5 w-3.5 text-destructive" /> : <Archive className="h-3.5 w-3.5 text-destructive" />}
-                        </button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
+              {SAMARQAND_TUMANLARI.map(tm => (
+                <button key={tm} onClick={() => setTumanFilter(tm)}
+                  className={`px-3 py-1.5 text-xs rounded-md transition-colors ${tumanFilter === tm ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"}`}
+                >
+                  {tm.replace(" tumani", "")}
+                </button>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+            </div>
+          </div>
+
+          <div className="bg-card rounded-xl border overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b bg-muted/50">
+                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">{t("fuqaro")}</th>
+                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">{t("turi")}</th>
+                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">{t("sana")}</th>
+                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">{t("holat")}</th>
+                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">{t("izoh")}</th>
+                    <th className="text-left p-4 text-sm font-medium text-muted-foreground"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map(a => (
+                    <tr key={a.id} className="border-b last:border-b-0 hover:bg-muted/30 transition-colors group">
+                      <td className="p-4 text-sm font-medium text-foreground">{a.fuqaroIsm}</td>
+                      <td className="p-4 text-sm text-muted-foreground">{a.tur}</td>
+                      <td className="p-4 text-sm text-muted-foreground">{a.sana}</td>
+                      <td className="p-4"><span className={`status-band ${statusClass[a.status]}`}>{statusLabel[a.status]}</span></td>
+                      <td className="p-4 text-sm text-muted-foreground max-w-xs truncate">{a.izoh}</td>
+                      <td className="p-4">
+                        <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
+                          {canEditPerm && (
+                            <button onClick={() => { setDialogMode("edit"); setEditingAriza(a); setDialogOpen(true); }}
+                              className="p-1 rounded hover:bg-muted" title={t("tahrirlash")}>
+                              <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
+                            </button>
+                          )}
+                          {canFinish && (
+                            <button onClick={() => handleYakunlash(a.id, a.fuqaroIsm)}
+                              className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
+                              <CheckCircle className="h-3.5 w-3.5 text-success" />
+                            </button>
+                          )}
+                          {canDelete && (
+                            <button onClick={() => handleDelete(a.id, a.fuqaroIsm)}
+                              className="p-1 rounded hover:bg-destructive/10" title={isHardDelete ? t("ochirish") : "Arxivlash"}>
+                              {isHardDelete ? <Trash2 className="h-3.5 w-3.5 text-destructive" /> : <Archive className="h-3.5 w-3.5 text-destructive" />}
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
 
       <ArizaCrudDialog open={dialogOpen} onClose={() => setDialogOpen(false)} mode={dialogMode} ariza={editingAriza} onSaved={refresh} />
     </div>
