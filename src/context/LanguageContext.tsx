@@ -6,7 +6,7 @@ const translations: Record<string, Record<Lang, string>> = {
   // Dashboard
   "bosh_sahifa": { uz: "Bosh sahifa", ru: "Главная" },
   "xush_kelibsiz": { uz: "Xush kelibsiz", ru: "Добро пожаловать" },
-  "samarqand_viloyati": { uz: "Samarqand viloyati", ru: "Самаркандская область" },
+  "samarqand_viloyati": { uz: "Samarqand shahar hokimligi", ru: "Хокимият города Самарканда" },
   "umumiy_uylar": { uz: "Umumiy uylar", ru: "Всего домов" },
   "band_uylar": { uz: "Band uylar", ru: "Занятые дома" },
   "bosh_uylar": { uz: "Bo'sh uylar", ru: "Свободные дома" },
