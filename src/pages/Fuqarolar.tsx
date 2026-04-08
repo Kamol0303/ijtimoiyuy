@@ -1,9 +1,10 @@
 import { useState, useCallback } from "react";
-import { Users, Search, Phone, FileText, Plus, Pencil, Trash2, Download, CheckCircle } from "lucide-react";
+import { Users, Search, Phone, FileText, Plus, Pencil, Trash2, Download, CheckCircle, Archive } from "lucide-react";
 import { SAMARQAND_TUMANLARI } from "@/data/mock-data";
 import { DataManager } from "@/services/DataManager";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
+import { PermissionService } from "@/services/PermissionService";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FuqaroCrudDialog } from "@/components/crud/FuqaroCrudDialog";
