@@ -16,7 +16,7 @@ import Monitoring from "./pages/Monitoring";
 import Xarita from "./pages/Xarita";
 import YerUchastkalari from "./pages/YerUchastkalari";
 import Navbat from "./pages/Navbat";
-import AITahlil from "./pages/AITahlil";
+
 import Hisobotlar from "./pages/Hisobotlar";
 import Xabarnomalar from "./pages/Xabarnomalar";
 import Sozlamalar from "./pages/Sozlamalar";
