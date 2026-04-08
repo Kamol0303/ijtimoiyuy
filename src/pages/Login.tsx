@@ -55,74 +55,29 @@ const Login = () => {
           <h2 className="text-2xl font-bold text-foreground mb-2">{t("tizimga_kirish")}</h2>
           <p className="text-muted-foreground mb-8">{t("platformasi")}</p>
 
-          {/* Tabs */}
-          <div className="flex gap-1 bg-muted rounded-lg p-1 mb-6">
-            {[
-              { key: "login" as const, label: t("login_parol") },
-              { key: "telefon" as const, label: t("telefon") },
-              { key: "myid" as const, label: "MyID" },
-            ].map(tb => (
-              <button
-                key={tb.key}
-                onClick={() => setTab(tb.key)}
-                className={`flex-1 text-sm py-2 rounded-md transition-colors ${
-                  tab === tb.key ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"
-                }`}
-              >
-                {tb.label}
-              </button>
-            ))}
-          </div>
-
-          {tab === "login" && (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label className="text-foreground">{t("foydalanuvchi_nomi")}</Label>
-                <Input
-                  value={username}
-                  onChange={e => setUsername(e.target.value)}
-                  placeholder="hokim, uyjoy, ayollar"
-                  className="mt-1.5"
-                />
-              </div>
-              <div>
-                <Label className="text-foreground">{t("parol")}</Label>
-                <Input
-                  type="password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  placeholder={t("parolni_kiriting")}
-                  className="mt-1.5"
-                />
-              </div>
-              {error && <p className="text-sm text-destructive">{error}</p>}
-              <Button type="submit" className="w-full">{t("kirish")}</Button>
-            </form>
-          )}
-
-          {tab === "telefon" && (
-            <div className="space-y-4">
-              <div>
-                <Label className="text-foreground">{t("telefon_raqam")}</Label>
-                <Input placeholder="+998 __ ___ __ __" className="mt-1.5" />
-              </div>
-              <Button className="w-full">{t("sms_kod_yuborish")}</Button>
-              <p className="text-xs text-muted-foreground text-center">{t("sms_tasdiq")}</p>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label className="text-foreground">{t("foydalanuvchi_nomi")}</Label>
+              <Input
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                placeholder="hokim, uyjoy, ayollar"
+                className="mt-1.5"
+              />
             </div>
-          )}
-
-          {tab === "myid" && (
-            <div className="text-center py-8">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-primary">ID</span>
-              </div>
-              <p className="text-foreground font-medium mb-2">{t("myid_kirish")}</p>
-              <p className="text-sm text-muted-foreground mb-6">{t("myid_qr")}</p>
-              <div className="w-40 h-40 bg-muted rounded-xl mx-auto flex items-center justify-center border-2 border-dashed border-border">
-                <span className="text-muted-foreground text-sm">{t("qr_kod")}</span>
-              </div>
+            <div>
+              <Label className="text-foreground">{t("parol")}</Label>
+              <Input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder={t("parolni_kiriting")}
+                className="mt-1.5"
+              />
             </div>
-          )}
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            <Button type="submit" className="w-full">{t("kirish")}</Button>
+          </form>
 
           <div className="mt-8 p-4 bg-muted rounded-xl">
             <p className="text-xs font-medium text-foreground mb-2">{t("sinov_loginlar")}</p>
