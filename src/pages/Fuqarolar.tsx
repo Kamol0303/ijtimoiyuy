@@ -78,10 +78,12 @@ const Fuqarolar = () => {
           <p className="page-subtitle">{t("fuqarolar_royxati")}</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
-            <Download className="h-4 w-4" /> {t("export")}
-          </Button>
-          {canEdit && (
+          {canExport && (
+            <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
+              <Download className="h-4 w-4" /> {t("export")}
+            </Button>
+          )}
+          {canAdd && (
             <Button onClick={() => { setDialogMode("add"); setEditingFuqaro(undefined); setDialogOpen(true); }} size="sm" className="gap-1">
               <Plus className="h-4 w-4" /> {t("yangi_fuqaro")}
             </Button>
