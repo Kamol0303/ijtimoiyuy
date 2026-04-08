@@ -49,7 +49,7 @@ const Login = () => {
         <div className="w-full max-w-md animate-slide-up">
           <div className="lg:hidden flex items-center gap-3 mb-8 justify-center">
             <img src={logo} alt="IjtimoiyUy AI" className="w-12 h-12" />
-            <h1 className="text-2xl font-bold text-foreground">IjtimoiyUy AI</h1>
+            <h1 className="text-2xl font-bold text-foreground">Ijtimoiy-uy AI</h1>
           </div>
 
           <h2 className="text-2xl font-bold text-foreground mb-2">{t("tizimga_kirish")}</h2>

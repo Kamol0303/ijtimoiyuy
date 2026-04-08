@@ -129,7 +129,7 @@ const translations: Record<string, Record<Lang, string>> = {
 
   // Login page
   "tizimga_kirish": { uz: "Tizimga kirish", ru: "Вход в систему" },
-  "platformasi": { uz: "Samarqand viloyati platformasi", ru: "Платформа Самаркандской области" },
+  "platformasi": { uz: "Samarqand shahar hokimligi platformasi", ru: "Платформа хокимията города Самарканда" },
   "login_parol": { uz: "Login/Parol", ru: "Логин/Пароль" },
   "telefon": { uz: "Telefon", ru: "Телефон" },
   "foydalanuvchi_nomi": { uz: "Foydalanuvchi nomi", ru: "Имя пользователя" },
