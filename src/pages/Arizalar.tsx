@@ -85,6 +85,21 @@ const Arizalar = () => {
           <p className="page-subtitle">{t("barcha_arizalar")}</p>
         </div>
         <div className="flex gap-2">
+          {/* View toggle */}
+          <div className="flex bg-muted rounded-lg p-1">
+            <button
+              onClick={() => setViewMode("list")}
+              className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1.5 transition-colors ${viewMode === "list" ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"}`}
+            >
+              <List className="h-4 w-4" /> {t("royxat")}
+            </button>
+            <button
+              onClick={() => setViewMode("kanban")}
+              className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1.5 transition-colors ${viewMode === "kanban" ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground"}`}
+            >
+              <LayoutGrid className="h-4 w-4" /> {t("kanban")}
+            </button>
+          </div>
           {canExport && (
             <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
               <Download className="h-4 w-4" /> {t("export")}
