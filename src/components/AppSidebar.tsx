@@ -92,12 +92,6 @@ export function AppSidebar() {
 
       <SidebarFooter className="bg-sidebar border-t border-sidebar-border">
         <div className="p-3">
-          {!collapsed && (
-            <div className="mb-2 px-2">
-              <p className="text-sm font-medium text-sidebar-foreground">{user.ism}</p>
-              <p className="text-xs text-sidebar-foreground/50">{user.telefon}</p>
-            </div>
-          )}
           <button
             onClick={logout}
             className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm text-sidebar-foreground/60 hover:bg-destructive/10 hover:text-destructive transition-colors"
