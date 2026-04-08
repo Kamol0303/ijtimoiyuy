@@ -51,10 +51,16 @@ const Arizalar = () => {
   };
 
   const handleDelete = (id: string, ism: string) => {
-    if (!isHokim) return;
-    if (confirm(`"${ism}" arizasini o'chirishni xohlaysizmi?`)) {
-      DataManager.deleteAriza(id, user?.ism || "");
-      toast.success("Ariza o'chirildi");
+    if (!canDelete) return;
+    const label = isHardDelete ? "o'chirishni" : "arxivlashni";
+    if (confirm(`"${ism}" arizasini ${label} xohlaysizmi?`)) {
+      if (isHardDelete) {
+        DataManager.deleteAriza(id, user?.ism || "");
+        toast.success("Ariza o'chirildi");
+      } else {
+        DataManager.updateAriza(id, { holat: "arxivlangan" } as any, user?.ism || "");
+        toast.success(`"${ism}" arxivlandi`);
+      }
       refresh();
     }
   };
