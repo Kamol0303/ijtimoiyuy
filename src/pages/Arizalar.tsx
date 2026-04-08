@@ -1,9 +1,10 @@
 import { useState, useCallback } from "react";
-import { FileText, Search, Plus, Download, CheckCircle, Pencil, Trash2 } from "lucide-react";
+import { FileText, Search, Plus, Download, CheckCircle, Pencil, Trash2, Archive } from "lucide-react";
 import { SAMARQAND_TUMANLARI } from "@/data/mock-data";
 import { DataManager } from "@/services/DataManager";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
+import { PermissionService } from "@/services/PermissionService";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArizaCrudDialog } from "@/components/crud/ArizaCrudDialog";
@@ -21,8 +22,13 @@ const Arizalar = () => {
   const [dialogMode, setDialogMode] = useState<"add" | "edit">("add");
   const [editingAriza, setEditingAriza] = useState<Ariza | undefined>();
 
-  const isHokim = user?.role === "hokim";
-  const canEdit = user?.role === "hokim" || user?.role === "uy_joy";
+  const role = user?.role;
+  const canAdd = role ? PermissionService.canAdd(role, "arizalar") : false;
+  const canEditPerm = role ? PermissionService.canEdit(role, "arizalar") : false;
+  const canDelete = role ? PermissionService.canDelete(role, "arizalar") : false;
+  const canFinish = role ? PermissionService.canFinish(role, "arizalar") : false;
+  const canExport = role ? PermissionService.canExport(role, "arizalar") : false;
+  const isHardDelete = role ? PermissionService.isHardDelete(role) : false;
 
   const arizalar = DataManager.getArizalar().filter(a => (a as any).holat !== "yakunlangan" && (a as any).holat !== "arxivlangan");
 
@@ -45,10 +51,16 @@ const Arizalar = () => {
   };
 
   const handleDelete = (id: string, ism: string) => {
-    if (!isHokim) return;
-    if (confirm(`"${ism}" arizasini o'chirishni xohlaysizmi?`)) {
-      DataManager.deleteAriza(id, user?.ism || "");
-      toast.success("Ariza o'chirildi");
+    if (!canDelete) return;
+    const label = isHardDelete ? "o'chirishni" : "arxivlashni";
+    if (confirm(`"${ism}" arizasini ${label} xohlaysizmi?`)) {
+      if (isHardDelete) {
+        DataManager.deleteAriza(id, user?.ism || "");
+        toast.success("Ariza o'chirildi");
+      } else {
+        DataManager.updateAriza(id, { holat: "arxivlangan" } as any, user?.ism || "");
+        toast.success(`"${ism}" arxivlandi`);
+      }
       refresh();
     }
   };
@@ -71,10 +83,12 @@ const Arizalar = () => {
           <p className="page-subtitle">{t("barcha_arizalar")}</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
-            <Download className="h-4 w-4" /> {t("export")}
-          </Button>
-          {canEdit && (
+          {canExport && (
+            <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
+              <Download className="h-4 w-4" /> {t("export")}
+            </Button>
+          )}
+          {canAdd && (
             <Button size="sm" onClick={() => { setDialogMode("add"); setEditingAriza(undefined); setDialogOpen(true); }}>
               <Plus className="h-4 w-4 mr-2" />{t("yangi_ariza")}
             </Button>
@@ -137,22 +151,22 @@ const Arizalar = () => {
                   <td className="p-4 text-sm text-muted-foreground max-w-xs truncate">{a.izoh}</td>
                   <td className="p-4">
                     <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
-                      {canEdit && (
-                        <>
-                          <button onClick={() => { setDialogMode("edit"); setEditingAriza(a); setDialogOpen(true); }}
-                            className="p-1 rounded hover:bg-muted" title={t("tahrirlash")}>
-                            <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
-                          </button>
-                          <button onClick={() => handleYakunlash(a.id, a.fuqaroIsm)}
-                            className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
-                            <CheckCircle className="h-3.5 w-3.5 text-success" />
-                          </button>
-                        </>
+                      {canEditPerm && (
+                        <button onClick={() => { setDialogMode("edit"); setEditingAriza(a); setDialogOpen(true); }}
+                          className="p-1 rounded hover:bg-muted" title={t("tahrirlash")}>
+                          <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
+                        </button>
                       )}
-                      {isHokim && (
+                      {canFinish && (
+                        <button onClick={() => handleYakunlash(a.id, a.fuqaroIsm)}
+                          className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
+                          <CheckCircle className="h-3.5 w-3.5 text-success" />
+                        </button>
+                      )}
+                      {canDelete && (
                         <button onClick={() => handleDelete(a.id, a.fuqaroIsm)}
-                          className="p-1 rounded hover:bg-destructive/10">
-                          <Trash2 className="h-3.5 w-3.5 text-destructive" />
+                          className="p-1 rounded hover:bg-destructive/10" title={isHardDelete ? t("ochirish") : "Arxivlash"}>
+                          {isHardDelete ? <Trash2 className="h-3.5 w-3.5 text-destructive" /> : <Archive className="h-3.5 w-3.5 text-destructive" />}
                         </button>
                       )}
                     </div>

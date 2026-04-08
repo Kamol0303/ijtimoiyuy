@@ -1,9 +1,10 @@
 import { useState, useCallback } from "react";
-import { Users, Search, Phone, FileText, Plus, Pencil, Trash2, Download, CheckCircle } from "lucide-react";
+import { Users, Search, Phone, FileText, Plus, Pencil, Trash2, Download, CheckCircle, Archive } from "lucide-react";
 import { SAMARQAND_TUMANLARI } from "@/data/mock-data";
 import { DataManager } from "@/services/DataManager";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
+import { PermissionService } from "@/services/PermissionService";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FuqaroCrudDialog } from "@/components/crud/FuqaroCrudDialog";
@@ -20,8 +21,13 @@ const Fuqarolar = () => {
   const [editingFuqaro, setEditingFuqaro] = useState<Fuqaro | undefined>();
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const isHokim = user?.role === "hokim";
-  const canEdit = user?.role === "hokim" || user?.role === "uy_joy";
+  const role = user?.role;
+  const canAdd = role ? PermissionService.canAdd(role, "fuqarolar") : false;
+  const canEditPerm = role ? PermissionService.canEdit(role, "fuqarolar") : false;
+  const canDelete = role ? PermissionService.canDelete(role, "fuqarolar") : false;
+  const canFinish = role ? PermissionService.canFinish(role, "fuqarolar") : false;
+  const canExport = role ? PermissionService.canExport(role, "fuqarolar") : false;
+  const isHardDelete = role ? PermissionService.isHardDelete(role) : false;
 
   const fuqarolar = DataManager.getFuqarolar().filter(f => (f as any).holat !== "yakunlangan" && (f as any).holat !== "arxivlangan");
 
@@ -34,10 +40,16 @@ const Fuqarolar = () => {
   const refresh = useCallback(() => setRefreshKey((k) => k + 1), []);
 
   const handleDelete = (f: Fuqaro) => {
-    if (!isHokim) return;
-    if (confirm(`"${f.ism}" fuqaroni o'chirishni xohlaysizmi?`)) {
-      DataManager.deleteFuqaro(f.id, user?.ism || "Noma'lum");
-      toast.success("Fuqaro o'chirildi");
+    if (!canDelete) return;
+    const label = isHardDelete ? "o'chirishni" : "arxivlashni";
+    if (confirm(`"${f.ism}" fuqaroni ${label} xohlaysizmi?`)) {
+      if (isHardDelete) {
+        DataManager.deleteFuqaro(f.id, user?.ism || "Noma'lum");
+        toast.success("Fuqaro o'chirildi");
+      } else {
+        DataManager.updateFuqaro(f.id, { holat: "arxivlangan" } as any, user?.ism || "");
+        toast.success(`"${f.ism}" arxivlandi`);
+      }
       refresh();
     }
   };
@@ -66,10 +78,12 @@ const Fuqarolar = () => {
           <p className="page-subtitle">{t("fuqarolar_royxati")}</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
-            <Download className="h-4 w-4" /> {t("export")}
-          </Button>
-          {canEdit && (
+          {canExport && (
+            <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
+              <Download className="h-4 w-4" /> {t("export")}
+            </Button>
+          )}
+          {canAdd && (
             <Button onClick={() => { setDialogMode("add"); setEditingFuqaro(undefined); setDialogOpen(true); }} size="sm" className="gap-1">
               <Plus className="h-4 w-4" /> {t("yangi_fuqaro")}
             </Button>
@@ -109,19 +123,21 @@ const Fuqarolar = () => {
                 <div className="flex items-start justify-between">
                   <h3 className="font-semibold text-foreground">{f.ism}</h3>
                   <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
-                    {canEdit && (
-                      <>
-                        <button onClick={() => { setDialogMode("edit"); setEditingFuqaro(f); setDialogOpen(true); }}
-                          className="p-1 rounded hover:bg-muted"><Pencil className="h-3.5 w-3.5 text-muted-foreground" /></button>
-                        <button onClick={() => handleYakunlash(f)}
-                          className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
-                          <CheckCircle className="h-3.5 w-3.5 text-success" />
-                        </button>
-                      </>
+                    {canEditPerm && (
+                      <button onClick={() => { setDialogMode("edit"); setEditingFuqaro(f); setDialogOpen(true); }}
+                        className="p-1 rounded hover:bg-muted"><Pencil className="h-3.5 w-3.5 text-muted-foreground" /></button>
                     )}
-                    {isHokim && (
+                    {canFinish && (
+                      <button onClick={() => handleYakunlash(f)}
+                        className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
+                        <CheckCircle className="h-3.5 w-3.5 text-success" />
+                      </button>
+                    )}
+                    {canDelete && (
                       <button onClick={() => handleDelete(f)}
-                        className="p-1 rounded hover:bg-destructive/10"><Trash2 className="h-3.5 w-3.5 text-destructive" /></button>
+                        className="p-1 rounded hover:bg-destructive/10" title={isHardDelete ? t("ochirish") : "Arxivlash"}>
+                        {isHardDelete ? <Trash2 className="h-3.5 w-3.5 text-destructive" /> : <Archive className="h-3.5 w-3.5 text-destructive" />}
+                      </button>
                     )}
                   </div>
                 </div>
