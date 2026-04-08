@@ -35,7 +35,7 @@ const Login = () => {
         <img src={suzani} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
         <div className="absolute inset-0 govtech-gradient opacity-90" />
         <div className="relative z-10 text-center px-12">
-          <img src={logo} alt="Ijtimoiy-uy AI" className="w-24 h-24 mx-auto mb-6" />
+          <img src={logo} alt="Ijtimoiy-uy AI" className="w-24 h-24 mx-auto mb-6 object-contain" />
           <h1 className="text-4xl font-bold text-primary-foreground mb-4">Ijtimoiy-uy AI</h1>
           <p className="text-lg text-primary-foreground/80">{t("samarqand_viloyati")} — {t("login_banner")}</p>
         </div>
