@@ -40,10 +40,16 @@ const Fuqarolar = () => {
   const refresh = useCallback(() => setRefreshKey((k) => k + 1), []);
 
   const handleDelete = (f: Fuqaro) => {
-    if (!isHokim) return;
-    if (confirm(`"${f.ism}" fuqaroni o'chirishni xohlaysizmi?`)) {
-      DataManager.deleteFuqaro(f.id, user?.ism || "Noma'lum");
-      toast.success("Fuqaro o'chirildi");
+    if (!canDelete) return;
+    const label = isHardDelete ? "o'chirishni" : "arxivlashni";
+    if (confirm(`"${f.ism}" fuqaroni ${label} xohlaysizmi?`)) {
+      if (isHardDelete) {
+        DataManager.deleteFuqaro(f.id, user?.ism || "Noma'lum");
+        toast.success("Fuqaro o'chirildi");
+      } else {
+        DataManager.updateFuqaro(f.id, { holat: "arxivlangan" } as any, user?.ism || "");
+        toast.success(`"${f.ism}" arxivlandi`);
+      }
       refresh();
     }
   };
