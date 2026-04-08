@@ -151,22 +151,22 @@ const Arizalar = () => {
                   <td className="p-4 text-sm text-muted-foreground max-w-xs truncate">{a.izoh}</td>
                   <td className="p-4">
                     <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
-                      {canEdit && (
-                        <>
-                          <button onClick={() => { setDialogMode("edit"); setEditingAriza(a); setDialogOpen(true); }}
-                            className="p-1 rounded hover:bg-muted" title={t("tahrirlash")}>
-                            <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
-                          </button>
-                          <button onClick={() => handleYakunlash(a.id, a.fuqaroIsm)}
-                            className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
-                            <CheckCircle className="h-3.5 w-3.5 text-success" />
-                          </button>
-                        </>
+                      {canEditPerm && (
+                        <button onClick={() => { setDialogMode("edit"); setEditingAriza(a); setDialogOpen(true); }}
+                          className="p-1 rounded hover:bg-muted" title={t("tahrirlash")}>
+                          <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
+                        </button>
                       )}
-                      {isHokim && (
+                      {canFinish && (
+                        <button onClick={() => handleYakunlash(a.id, a.fuqaroIsm)}
+                          className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
+                          <CheckCircle className="h-3.5 w-3.5 text-success" />
+                        </button>
+                      )}
+                      {canDelete && (
                         <button onClick={() => handleDelete(a.id, a.fuqaroIsm)}
-                          className="p-1 rounded hover:bg-destructive/10">
-                          <Trash2 className="h-3.5 w-3.5 text-destructive" />
+                          className="p-1 rounded hover:bg-destructive/10" title={isHardDelete ? t("ochirish") : "Arxivlash"}>
+                          {isHardDelete ? <Trash2 className="h-3.5 w-3.5 text-destructive" /> : <Archive className="h-3.5 w-3.5 text-destructive" />}
                         </button>
                       )}
                     </div>

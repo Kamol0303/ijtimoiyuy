@@ -123,19 +123,21 @@ const Fuqarolar = () => {
                 <div className="flex items-start justify-between">
                   <h3 className="font-semibold text-foreground">{f.ism}</h3>
                   <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
-                    {canEdit && (
-                      <>
-                        <button onClick={() => { setDialogMode("edit"); setEditingFuqaro(f); setDialogOpen(true); }}
-                          className="p-1 rounded hover:bg-muted"><Pencil className="h-3.5 w-3.5 text-muted-foreground" /></button>
-                        <button onClick={() => handleYakunlash(f)}
-                          className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
-                          <CheckCircle className="h-3.5 w-3.5 text-success" />
-                        </button>
-                      </>
+                    {canEditPerm && (
+                      <button onClick={() => { setDialogMode("edit"); setEditingFuqaro(f); setDialogOpen(true); }}
+                        className="p-1 rounded hover:bg-muted"><Pencil className="h-3.5 w-3.5 text-muted-foreground" /></button>
                     )}
-                    {isHokim && (
+                    {canFinish && (
+                      <button onClick={() => handleYakunlash(f)}
+                        className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
+                        <CheckCircle className="h-3.5 w-3.5 text-success" />
+                      </button>
+                    )}
+                    {canDelete && (
                       <button onClick={() => handleDelete(f)}
-                        className="p-1 rounded hover:bg-destructive/10"><Trash2 className="h-3.5 w-3.5 text-destructive" /></button>
+                        className="p-1 rounded hover:bg-destructive/10" title={isHardDelete ? t("ochirish") : "Arxivlash"}>
+                        {isHardDelete ? <Trash2 className="h-3.5 w-3.5 text-destructive" /> : <Archive className="h-3.5 w-3.5 text-destructive" />}
+                      </button>
                     )}
                   </div>
                 </div>

@@ -162,19 +162,21 @@ const Uylar = () => {
               <div className="flex items-center gap-1">
                 <span className={`status-band ${statusClasses[uy.status]}`}>{statusLabels[uy.status]}</span>
                 <div className="opacity-0 group-hover:opacity-100 flex gap-1 ml-1 transition-opacity">
-                  {canEdit && (
-                    <>
-                      <button onClick={() => { setDialogMode("edit"); setEditingUy(uy); setDialogOpen(true); }}
-                        className="p-1 rounded hover:bg-muted"><Pencil className="h-3.5 w-3.5 text-muted-foreground" /></button>
-                      <button onClick={() => handleYakunlash(uy)}
-                        className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
-                        <CheckCircle className="h-3.5 w-3.5 text-success" />
-                      </button>
-                    </>
+                  {canEditPerm && (
+                    <button onClick={() => { setDialogMode("edit"); setEditingUy(uy); setDialogOpen(true); }}
+                      className="p-1 rounded hover:bg-muted"><Pencil className="h-3.5 w-3.5 text-muted-foreground" /></button>
                   )}
-                  {isHokim && (
+                  {canFinish && (
+                    <button onClick={() => handleYakunlash(uy)}
+                      className="p-1 rounded hover:bg-success/10" title={t("yakunlash")}>
+                      <CheckCircle className="h-3.5 w-3.5 text-success" />
+                    </button>
+                  )}
+                  {canDelete && (
                     <button onClick={() => handleDelete(uy)}
-                      className="p-1 rounded hover:bg-destructive/10"><Trash2 className="h-3.5 w-3.5 text-destructive" /></button>
+                      className="p-1 rounded hover:bg-destructive/10" title={isHardDelete ? t("ochirish") : "Arxivlash"}>
+                      {isHardDelete ? <Trash2 className="h-3.5 w-3.5 text-destructive" /> : <Archive className="h-3.5 w-3.5 text-destructive" />}
+                    </button>
                   )}
                 </div>
               </div>
