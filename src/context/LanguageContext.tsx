@@ -60,7 +60,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "qidirish": { uz: "Uy nomi yoki manzil bo'yicha qidirish...", ru: "Поиск по названию или адресу..." },
   
   // Fuqarolar page
-  "fuqarolar_royxati": { uz: "Samarqand viloyati — ijtimoiy himoyaga muhtoj fuqarolar ro'yxati", ru: "Самаркандская область — список граждан, нуждающихся в социальной защите" },
+  "fuqarolar_royxati": { uz: "Samarqand shahar hokimligi — ijtimoiy himoyaga muhtoj fuqarolar ro'yxati", ru: "Хокимият города Самарканда — список граждан, нуждающихся в социальной защите" },
   "yangi_fuqaro": { uz: "Yangi fuqaro", ru: "Новый гражданин" },
   "qidirish_fuqaro": { uz: "Ism yoki JShShIR bo'yicha qidiring...", ru: "Поиск по имени или ПИНФЛ..." },
   "ta_ariza": { uz: "ta ariza", ru: "заявлений" },
