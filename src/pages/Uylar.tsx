@@ -94,10 +94,12 @@ const Uylar = () => {
           <p className="page-subtitle">{t("jiloy_va_nejiloy")}</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
-            <Download className="h-4 w-4" /> {t("export")}
-          </Button>
-          {canEdit && (
+          {canExport && (
+            <Button variant="outline" onClick={handleExport} size="sm" className="gap-1">
+              <Download className="h-4 w-4" /> {t("export")}
+            </Button>
+          )}
+          {canAdd && (
             <Button onClick={() => { setDialogMode("add"); setEditingUy(undefined); setDialogOpen(true); }} size="sm" className="gap-1">
               <Plus className="h-4 w-4" /> {t("yangi_uy")}
             </Button>
